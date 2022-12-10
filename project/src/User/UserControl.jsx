@@ -8,7 +8,7 @@ import UserPanel from './UserPanel';
 function UserControl (){
   return (
     <div className='userHomePage'>
-      <div className='userPanel'>
+      <div className="featureSection">
             <UserPanel/>
           </div>
           <div className='userHome'>
