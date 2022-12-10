@@ -1,7 +1,15 @@
-import {Link, Outlet} from "react-router-dom";
 import { useEffect, useState } from "react";
 
-function UserFav(){
+import UserPanel from './UserPanel';
+
+function UserFav() {
+    return (
+        <div>
+            <UserPanel />
+            <div className='userFav'>
+            </div>
+        </div>
+    );
 }
 
-export default  UserFav;
+export default UserFav;
