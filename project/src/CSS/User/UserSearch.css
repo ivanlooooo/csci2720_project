@@ -1,0 +1,33 @@
+.userSearch {
+    padding: 5%;
+}
+
+.searchBar {
+    width: 90%;
+    margin: 5%;
+    padding: 5px;
+}
+
+table.searchResult {
+    width: 100%;
+}
+    table.searchResult th.ColumnName {
+        text-decoration: underline;
+        text-align: left;
+        line-height: 200%;
+    }
+    table.searchResult td.Cell {
+        text-align: left;
+        line-height: 200%;
+        width: 15%
+    }
+    table.searchResult th#Venue {
+        text-decoration: underline;
+        text-align: left;
+        width: 20%
+    }
+    table.searchResult th#Location {
+        text-decoration: underline;
+        text-align: left;
+        width: 25%
+    }
