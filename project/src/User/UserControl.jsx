@@ -4,6 +4,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { useLocation, Link } from "react-router-dom";
 
 import UserPanel from './UserPanel';
+import GoogleMap from './Map';
 
 function UserControl() {
   return (
@@ -12,6 +13,7 @@ function UserControl() {
         <UserPanel />
       </div>
       <div className='userHome'>
+        <GoogleMap />
       </div>
       <div className='footer'>
 
@@ -19,5 +21,6 @@ function UserControl() {
     </div>
   );
 }
+
 
 export default UserControl;

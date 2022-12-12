@@ -9,7 +9,6 @@ import UserSearch from './User/UserSearch';
 class Router extends React.Component {
   render() {
     return (
-      <React.StrictMode>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Navigate to="/Login" />} />
@@ -19,7 +18,6 @@ class Router extends React.Component {
             <Route path="/User/Favourite" element={<UserFav />} />
           </Routes>
         </BrowserRouter>
-      </React.StrictMode>
     );
   }
 
