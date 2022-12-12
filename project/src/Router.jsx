@@ -5,6 +5,7 @@ import Login from './Login';
 import UserControl from './User/UserControl';
 import UserFav from './User/UserFavourite';
 import UserSearch from './User/UserSearch';
+import Locations from './Admin/adminHome';
 
 class Router extends React.Component {
   render() {
@@ -17,6 +18,7 @@ class Router extends React.Component {
             <Route path="/User" element={<UserControl />} />
             <Route path="/User/Search" element={<UserSearch />} />
             <Route path="/User/Favourite" element={<UserFav />} />
+            <Route path="/Admin" element={<Locations />} />
           </Routes>
         </BrowserRouter>
       </React.StrictMode>

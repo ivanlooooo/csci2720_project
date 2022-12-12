@@ -34,6 +34,8 @@ function Locations(){
         .then(res => res.json())
         .then(res => setRole(res.role))
         .catch(err => console.log("error: "+err));
+
+        setRole("admin");
     },[]) 
 
     return(
