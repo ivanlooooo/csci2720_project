@@ -8,7 +8,7 @@ import { Navigate, useSearchParams } from "react-router-dom";
 
 //only for admin
 function AdminOnly(){
-    return <h3>Admin only, please log in as Admin!</h3>
+    return <h3>Admin only, please log in as admin.</h3>
 }
 
 
@@ -17,9 +17,9 @@ function LocationCRUD(){
     let [location, setLocation] = useState(null)
     let [crudResult, setCrudResult] = useState(null)
     let [searchParams, setSearchParams] = useSearchParams()
-    let [loc_nameErr,setloc_nameErr] = useState(null);
-    let [loc_latErr,setloc_latErr] = useState(null);
-    let [loc_longErr,setloc_longErr] = useState(null);
+    let [loc_wrongName,setloc_wrongName] = useState(null);
+    let [loc_wrongLat,setloc_wrongLat] = useState(null);
+    let [loc_wrongLong,setloc_wrongLong] = useState(null);
 
     let locId = searchParams.get("id");
     let submitForm = e => {
@@ -65,29 +65,29 @@ function LocationCRUD(){
     }
     // Form validation funciton
     function formValidation(loc_name, loc_lat,loc_long){
-        let loc_nameErr = {};
-        let loc_latErr = {};
-        let loc_longErr = {};
+        let loc_wrongName = {};
+        let loc_wrongLat = {};
+        let loc_wrongLong = {};
         let isValid = false;
     
         if(!loc_name.match("^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$")){
-            loc_nameErr = "false";
+            loc_wrongName = "false";
             isValid =true;
         }
 
         if(!loc_lat.match("^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$")){
-            loc_latErr = "false";
+            loc_wrongLat = "false";
             isValid =true;
         }
 
         if(!loc_long.match("^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$")){
-            loc_longErr = "false";
+            loc_wrongLong = "false";
             isValid =true;
         }
     
-        setloc_nameErr(loc_nameErr);
-        setloc_latErr(loc_latErr);
-        setloc_longErr(loc_longErr);
+        setloc_wrongName(loc_wrongName);
+        setloc_wrongLat(loc_wrongLat);
+        setloc_wrongLong(loc_wrongLong);
         return isValid;
     }
 
@@ -116,7 +116,7 @@ function LocationCRUD(){
     return(
         <>
             { role === "error" && <Navigate to="/login" /> }
-            { role === "admin" && <CRUDContent loc_nameErr={loc_nameErr} loc_latErr={loc_latErr} loc_longErr={loc_longErr} location={location} option={searchParams.get("option")} submitForm={submitForm} crudResult={crudResult}/> }
+            { role === "admin" && <CRUDContent loc_wrongName={loc_wrongName} loc_wrongLat={loc_wrongLat} loc_wrongLong={loc_wrongLong} location={location} option={searchParams.get("option")} submitForm={submitForm} crudResult={crudResult}/> }
             { (role !== "admin" && role !== null) && <AdminOnly />}
             { role === null && <LoadContent /> }    
         </>   
@@ -173,7 +173,7 @@ function CRUDContent(props){
                             <label className="title" htmlFor="name">Location Name: </label><br/>
                             <input type="text" name="name" placeholder="Location Name"></input><br/>
                             {
-                                props.loc_nameErr === "false" && 
+                                props.loc_wrongName === "false" && 
                                 <div className='alert alert-danger' role="alert">
                                     Empty field is not allowed. Please enter numbers and letters.
                                 </div>
@@ -182,7 +182,7 @@ function CRUDContent(props){
                             <label className="title" htmlFor="latitude">Latitude: </label><br/>
                             <input type="text" name="latitude" placeholder="Latitude"></input><br/>
                             {
-                                props.loc_latErr === "false" && 
+                                props.loc_wrongLat === "false" && 
                                 <div className='alert alert-danger' role="alert">
                                     Empty field is not allowed. Please enter latitude numbers!
                                 </div>
@@ -191,7 +191,7 @@ function CRUDContent(props){
                             <label className="title" htmlFor="longitude">Longitude: </label><br/>
                             <input type="text" name="longitude" placeholder="Enter longitude"></input><br/>
                             {
-                                props.loc_longErr === "false" && 
+                                props.loc_wrongLong === "false" && 
                                 <div className='alert alert-danger' role="alert">
                                     Empty field is not allowed. Please enter longitude numbers!
                                 </div>
