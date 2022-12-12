@@ -90,7 +90,7 @@ export default function Index() {
     <div style={{ overflowX: "auto" }} className="page-container">
       <div style={{display:"flex"}}>
         <div className="list-search-container">
-          <input type="search" class="table-filter list-search-input" data-table="table" placeholder="Search"/>
+          <input type="Search" class="table-filter list-search-input" data-table="table" placeholder="Search"/>
         </div>
         
         <div className="place-button">
