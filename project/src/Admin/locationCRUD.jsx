@@ -21,8 +21,6 @@ function LocationCRUD(){
     let [crudResult, setCrudResult] = useState(null)
     let [searchParams, setSearchParams] = useSearchParams()
     let [loc_wrongName,setloc_wrongName] = useState(null);
-    let [loc_wrongLat,setloc_wrongLat] = useState(null);
-    let [loc_wrongLong,setloc_wrongLong] = useState(null);
 
     let locId = searchParams.get("id");
     let submitForm = e => {
@@ -30,21 +28,17 @@ function LocationCRUD(){
         let fetchBody = null;
         let option= searchParams.get("option");
 
-        if(formValidation(e.target.name.value, e.target.latitude.value, e.target.longitude.value)) return;
+        if(formValidation(e.target.name.value)) return;
 
         switch(option){
             case "create":
                 fetchBody = JSON.stringify({ option: option, newLocation: {
                     name: e.target.name.value,
-                    latitude: e.target.latitude.value,
-                    longitude: e.target.longitude.value
                 } })
                 break;
             case "update":
                 fetchBody = JSON.stringify({ option: option, locationId: locId, newLocation: {
                     name: e.target.name.value,
-                    latitude: e.target.latitude.value,
-                    longitude: e.target.longitude.value
                 } })
                 alert('loc updated');
                 break;
@@ -70,8 +64,6 @@ function LocationCRUD(){
     
     function formValidation(loc_name, loc_lat,loc_long){
         let loc_wrongName = {};
-        let loc_wrongLat = {};
-        let loc_wrongLong = {};
         let isValid = false;
     
         if(!loc_name.match("^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$")){
@@ -79,19 +71,7 @@ function LocationCRUD(){
             isValid =true;
         }
 
-        if(!loc_lat.match("^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$")){
-            loc_wrongLat = "false";
-            isValid =true;
-        }
-
-        if(!loc_long.match("^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$")){
-            loc_wrongLong = "false";
-            isValid =true;
-        }
-    
         setloc_wrongName(loc_wrongName);
-        setloc_wrongLat(loc_wrongLat);
-        setloc_wrongLong(loc_wrongLong);
         return isValid;
     }
 
@@ -120,7 +100,7 @@ function LocationCRUD(){
     return(
         <>
             { role === "error" && <Navigate to="/login" /> }
-            { role === "admin" && <CRUDContent loc_wrongName={loc_wrongName} loc_wrongLat={loc_wrongLat} loc_wrongLong={loc_wrongLong} location={location} option={searchParams.get("option")} submitForm={submitForm} crudResult={crudResult}/> }
+            { role === "admin" && <CRUDContent loc_wrongName={loc_wrongName} location={location} option={searchParams.get("option")} submitForm={submitForm} crudResult={crudResult}/> }
             { (role !== "admin" && role !== null) && <AdminOnly />}
             { role === null && <LoadContent /> }    
         </>   
@@ -182,24 +162,7 @@ function CRUDContent(props){
                                     Empty field is not allowed. Please enter numbers and letters.
                                 </div>
                             }
-
-                            <label className="title" htmlFor="latitude">Latitude: </label><br/>
-                            <input type="text" name="latitude" placeholder="Latitude"></input><br/>
-                            {
-                                props.loc_wrongLat === "false" && 
-                                <div className='alert alert-danger' role="alert">
-                                    Empty field is not allowed. Please enter latitude numbers!
-                                </div>
-                            }
-
-                            <label className="title" htmlFor="longitude">Longitude: </label><br/>
-                            <input type="text" name="longitude" placeholder="Enter longitude"></input><br/>
-                            {
-                                props.loc_wrongLong === "false" && 
-                                <div className='alert alert-danger' role="alert">
-                                    Empty field is not allowed. Please enter longitude numbers!
-                                </div>
-                            }
+                
 
                             {props.option!=="read" && <input className="submit-btn" type="submit" value={props.option}/>}
                         </form>
