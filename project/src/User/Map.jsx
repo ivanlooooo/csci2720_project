@@ -60,7 +60,6 @@ function GoogleMap(props) {
 
     return (
         <section id="map">
-            <input type="button" value="測試自動完成" onClick={handleAutocomplete} />
             <div style={{ height: '100vh', width: '70%' }}>
                 <GoogleMapReact
                     bootstrapURLKeys={{ key: process.env.REACT_APP_MAP_API_KEY }}
@@ -70,7 +69,7 @@ function GoogleMap(props) {
                     yesIWantToUseGoogleMapApiInternals
                     onGoogleApiLoaded={({ map, maps }) => apiHasLoaded(map, maps)}
                 >
-                {location.map(item=>(
+               {location.map(item=>(
                         <MeseumMarker
                             icon={require('../image/museum.png')}
                             lat={item.lat}
