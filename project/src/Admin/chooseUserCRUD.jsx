@@ -9,14 +9,14 @@
 import { useNavigate, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-//import '../css/admin/users.css';
+import '../CSS/Admin/chooseUser.css';
 
 //only for admin
 function AdminOnly(){
     return <h3>Admin only, please log in as admin.</h3>
 }
 
-function Users(){
+function ChooseUser(){
 let navigate = useNavigate();
 let [role, setRole] = useState(null)
 let [users, setUsers] = useState(null)
@@ -41,6 +41,8 @@ useEffect(()=>{
     .then(res => res.json())
     .then(res => setUsers(res))
     .catch(err => console.log("error: "+err));
+
+    setRole("admin");
 },[]) 
 
 return(
@@ -70,10 +72,10 @@ return(
     <div className='container-xl'>
         <div className='row'>
             <div className='col'>
-                <h1>Users Table</h1>
+                <h1>Users List</h1>
             </div>
             <div className="col fnt-nav">
-                <button type="button" className="nav-btn fnt-btn" onClick={() => props.crudUser("option=create")}>Create New User</button>
+                <button type="button" role="button" className="nav-btn fnt-btn" onClick={() => props.crudUser("option=create")}>Create New User</button>
             </div>
         </div>
 
@@ -82,8 +84,8 @@ return(
                 <table className="location-table">
                     <thead>
                         <tr className="first-row">
-                            <th>username</th>
-                            <th>Action</th>
+                            <th>Username</th>
+                            <th>History of Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -106,4 +108,4 @@ return(
 )
 }
 
-export default Users;
+export default ChooseUser;
