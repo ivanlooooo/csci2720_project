@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 
 import '../CSS/Admin/adminHome.css';
 
-function Locations(){
+function Events(){
     let navigate = useNavigate();
     let [role, setRole] = useState(null)
     let [locations, setLocations] = useState(null)
@@ -72,4 +72,4 @@ function AdminHome(props){
     )
 }
 
-export default Locations;
+export default Events;

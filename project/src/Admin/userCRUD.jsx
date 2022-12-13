@@ -6,7 +6,7 @@
 
 import { useState, useEffect } from "react";
 import { Navigate, useSearchParams } from "react-router-dom";
-import '../css/admin/userCrud.css';
+//import '../css/admin/userCrud.css';
 
 function UserCRUD(){
     let [role, setRole] = useState(null)
