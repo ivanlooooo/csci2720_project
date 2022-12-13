@@ -1,3 +1,7 @@
+// Au Yeung Hui Kei (1155158820) Chan Gi Wei Violet (1155126648) 
+// Kong Ming Kin(1155144268)     Lo Kwun Hei (1155155612) 
+// Yeung Ka Him(1155176590)      Yuen Man Yi (1155127553)
+
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate, Link } from "react-router-dom";
 
@@ -9,7 +13,7 @@ import UserSearch from './User/UserSearch';
 import Locations from './Admin/adminHome';
 import ChooseUser from './Admin/chooseUserCRUD';
 
-import LocCrud from './Admin/locationCRUD';
+import EventCRUD from './Admin/eventCRUD';
 import UserCrud from './Admin/userCRUD';
 
 class Router extends React.Component {
@@ -27,7 +31,7 @@ class Router extends React.Component {
             <Route path="/Admin" element={<Locations />} />
             <Route path="/Admin/ChooseUser" element={<ChooseUser />} />
 
-            <Route path="/Admin/LocCrud" element={<LocCrud />} />
+            <Route path="/Admin/LocCrud" element={<EventCRUD />} />
             <Route path="/Admin/UserCrud" element={<UserCrud />} />
           </Routes>
         </BrowserRouter>

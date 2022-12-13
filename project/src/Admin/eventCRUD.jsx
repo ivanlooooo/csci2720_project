@@ -15,7 +15,7 @@ function AdminOnly(){
 }
 
 
-function LocationCRUD(){
+function EventCRUD(){
     let [role, setRole] = useState(null)
     let [location, setLocation] = useState(null)
     let [crudResult, setCrudResult] = useState(null)
@@ -85,7 +85,7 @@ function LocationCRUD(){
         .catch(err => console.log("error: "+err));
 
         if(locId){
-            fetch(process.env.REACT_APP_SERVER_URL+"/locationList",{
+            fetch(process.env.REACT_APP_SERVER_URL+"/EventList",{
                 method:"POST",
                 credentials: "include",
                 headers: { 'Content-Type': 'application/json' },
@@ -173,4 +173,4 @@ function CRUDContent(props){
     )
 }
 
-export default LocationCRUD;
+export default EventCRUD;
