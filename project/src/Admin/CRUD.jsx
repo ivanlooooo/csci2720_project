@@ -2,6 +2,8 @@
 // Kong Ming Kin(1155144268)     Lo Kwun Hei (1155155612) 
 // Yeung Ka Him(1155176590)      Yuen Man Yi (1155127553)
 
+//if is not admin login, then return CRUD
+
 import { useState, useEffect } from "react";
 
 function CRUD(){
@@ -20,7 +22,7 @@ function CRUD(){
         <>
             {
                 role !== "admin"? 
-                <h3>Please Log in as Admin!</h3> :
+                <h2>Please Log in as Admin!</h2>:
                 <section id='locationManage'>
                     <div className='container'>
                         <div className='row'>

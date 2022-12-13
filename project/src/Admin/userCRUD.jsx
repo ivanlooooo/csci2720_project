@@ -60,19 +60,20 @@ function UserCRUD(){
         .catch(err => console.log("error: "+err));
     }
 
-    
+
     function formValidation(user_username, user_password){
         let user_wrongUsername = {};
         let user_wrongPw ={};
         let isValid = false;
 
-        if(!user_username.match("^(?=.{4,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$")){
+        //username is 8-20 characters long, no _ or . at the beginning, in the middle or at the end
+        if(!user_username.match("^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$")){
             user_wrongUsername = "false";
             isValid =true;
         }
 
-
-        if(!user_password.match("^[A-Za-z0-9]*[A-Za-z0-9][A-Za-z0-9]*$")){
+        //minimum 8 characters, at least 1 letter and 1 number
+        if(!user_password.match("^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$")){
             user_wrongPw = "false";
             isValid =true;
         }
