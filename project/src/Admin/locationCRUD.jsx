@@ -127,10 +127,10 @@ function LocationCRUD(){
 function LoadContent(){
     let [dotNum, setDotNum] = useState(0)
     useEffect(()=>{
-        let timer = setTimeout(()=>setDotNum((dotNum+1)%4),1000)
+        let timer = setTimeout(()=>setDotNum((dotNum+1)%4),500)
         return () => clearTimeout(timer)
     }) 
-    return <h1>{".".repeat(dotNum)}</h1>
+    return <h2>{"Loading" + ".".repeat(dotNum)}</h2>
 }
 
 
