@@ -75,7 +75,7 @@ return(
                 <h1>Users List</h1>
             </div>
             <div className="col fnt-nav">
-                <button type="button" role="button" className="nav-btn fnt-btn" onClick={() => props.crudUser("option=create")}>Create New User</button>
+                <button type="button" className="nav-btn fnt-btn" onClick={() => props.crudUser("option=create")}>Create New User</button>
             </div>
         </div>
 

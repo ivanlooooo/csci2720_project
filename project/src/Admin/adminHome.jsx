@@ -5,8 +5,7 @@
 import { useNavigate, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-//import '../css/admin/adminhome.css';  <-- later import!!!
-
+import '../CSS/Admin/adminHome.css';
 
 function Locations(){
     let navigate = useNavigate();
@@ -66,7 +65,7 @@ function AdminHome(props){
        <section id='adminHome' >
            <div className="banner">
                <div className="content">
-                   <h1>Hello Admin! Welcome Back!</h1>
+                   <h1>Hello Admin, Welcome Back!</h1>
                </div>
            </div>
        </section>
