@@ -2,8 +2,11 @@
 // Kong Ming Kin(1155144268)     Lo Kwun Hei (1155155612) 
 // Yeung Ka Him(1155176590)      Yuen Man Yi (1155127553)
 
+//check by users
+
 import { useState, useEffect } from "react";
 import { Navigate, useSearchParams } from "react-router-dom";
+
 //import '../css/admin/locCrud.css';
 
 //only for admin
@@ -63,7 +66,8 @@ function LocationCRUD(){
         .then(res => console.log(res))
         .catch(err => console.log("error: "+err));
     }
-    // Form validation funciton
+
+    
     function formValidation(loc_name, loc_lat,loc_long){
         let loc_wrongName = {};
         let loc_wrongLat = {};

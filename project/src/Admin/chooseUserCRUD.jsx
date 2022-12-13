@@ -46,9 +46,9 @@ useEffect(()=>{
 return(
     <>
         { role === "error" && <Navigate to="/login" /> }
-        { role === null && <LoadingContent /> }
         { role === "admin" && <UsersContent users={users}  crudUser={crudUser} /> }
-        { (role !== "admin" && role !== null) && <AdminOnly />}    
+        { (role !== "admin" && role !== null) && <AdminOnly />}
+        { role === null && <LoadingContent /> }    
     </>   
 )
 }
