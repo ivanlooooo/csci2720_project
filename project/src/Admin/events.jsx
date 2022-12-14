@@ -7,7 +7,8 @@
 
 import { useNavigate, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-//import '../css/admin/location.css';
+
+import '../CSS/Admin/events.css';
 
 //only for admin
 function AdminOnly(){
@@ -21,7 +22,7 @@ function Events(){
 
     let crudLoc = param => navigate("crud?"+param);
     let reloadData = () => {
-        fetch(process.env.REACT_APP_SERVER_URL+"/locationManage",{
+        fetch(process.env.REACT_APP_SERVER_URL+"/eventManage",{
             method:"POST",
             credentials: "include",
             headers: { 'Content-Type': 'application/json' },
@@ -41,7 +42,7 @@ function Events(){
         .then(res => setRole(res.role))
         .catch(err => console.log("error: "+err));
         
-        fetch(process.env.REACT_APP_SERVER_URL+"/locationManage",{
+        fetch(process.env.REACT_APP_SERVER_URL+"/eventManage",{
             method:"POST",
             credentials: "include",
             headers: { 'Content-Type': 'application/json' },
@@ -50,6 +51,8 @@ function Events(){
         .then(res => res.json())
         .then(res => setLocations(res))
         .catch(err => console.log("error: "+err));
+
+        setRole("admin");
     },[]) 
 
     return(
@@ -57,7 +60,7 @@ function Events(){
             { role === "error" && <Navigate to="/login" /> }
             { role === null && <LoadingContent /> }
             { role === "admin" && <LocationsContent locations={locations} reloadData={reloadData} crudLoc={crudLoc} /> }
-            { (role !== "admin" && role !== null) && <WrongRole />}    
+            { (role !== "admin" && role !== null) && <AdminOnly />}    
         </>   
     )
 }
@@ -75,31 +78,33 @@ function LoadingContent(){
 function LocationsContent(props){
 
     return(
-        <section id='locationManage'>
+        <section id='eventManage'>
             <div className='container-xl'>
                 <div className='row'>
                     <div className='col'>
                         <h1>Event List</h1>
                     </div>
                     <div className="col fnt-nav">
-                        <button type="button" className="nav-btn fnt-btn" onClick={() => props.crudLoc("option=create")}>Create New Location</button>
+                        <button type="button" className="nav-btn fnt-btn" onClick={() => props.crudLoc("option=create")}>Create New Event</button>
                         <button className="nav-btn refresh-btn" onClick={props.reloadData}>Refresh</button>
                     </div>
                 </div>
                 <div className='row'>
                     <div className='col'>
-                        <table className="location-table">
+                        <table className="event-table">
                             <thead>
                                 <tr className="first-row">
                                     <th>Place</th>
                                     <th>Event</th>
+                                    <th>Road</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {props.locations!=null && props.locations.map((ele,i) => 
                                     <tr key={i}>
                                         <td>{ele.name}</td>
-                                        <td>{ele.events}</td>
+                                        <td>{ele.event}</td>
+                                        <td>{ele.road}</td>
                                         <td>
                                             <button type="button" className="button" onClick={() => props.crudLoc("option=read&id="+ele._id)}>Read</button>
                                             <button type="button" className="button update-btn" onClick={() => props.crudLoc("option=update&id="+ele._id)}>Update</button>

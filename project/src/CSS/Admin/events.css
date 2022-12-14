@@ -8,20 +8,25 @@ body {
     background-color: cornsilk;
 }
 
-/* Title */
-#userManage h1 {
-    color: indigo;
-    padding: 15px;
+#eventManage * {
+    padding: 0px 10px;
+    font-family: sans-serif;
 }
 
+#eventManage h1 {
+    color: indigo;
+    margin-top: 15px;
+    padding: 15px 0;
+}
 
-/* Create User Button */
-#userManage .fnt-nav {
+/* Button */
+#eventManage .fnt-nav {
     text-align: left;
     padding: 0px 20px 10px 10px;
 }
 
-#userManage .fnt-btn {
+#eventManage .fnt-btn {
+    margin-right: 10px;
     align-items: center;
     appearance: none;
     background-color: #fff;
@@ -53,51 +58,85 @@ body {
     will-change: transform,opacity;
     z-index: 0;
 }
-
-#userManage .fnt-btn {
+  
+#eventManage .fnt-btn {
     background: #F6F9FE;
     color: #174ea6;
 }
 
-#userManage .fnt-btn:active {
+#eventManage .fnt-btn:active {
     box-shadow: 0 4px 4px 0 rgb(60 64 67 / 30%), 0 8px 12px 6px rgb(60 64 67 / 15%);
     outline: none;
 }
 
-#userManage .fnt-btn:focus {
+#eventManage .fnt-btn:focus {
     outline: none;
     border: 2px solid #4285f4;
 }
 
 
+/* Refresh button */
+#eventManage .refresh-btn {
+    background-color: #f8f9fa;
+    border: 1px solid #f8f9fa;
+    border-radius: 4px;
+    color: #3c4043;
+    cursor: pointer;
+    font-family: arial,sans-serif;
+    font-size: 14px;
+    height: 36px;
+    line-height: 27px;
+    min-width: 54px;
+    padding: 0 16px;
+    text-align: center;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: pre;
+}
+
+
+#eventManage .refresh-btn:hover {
+  border-color: #dadce0;
+  box-shadow: rgba(0, 0, 0, .1) 0 1px 1px;
+  color: #202124;
+}
+
+#eventManage .refresh-btn:focus {
+  border-color: #4285f4;
+  outline: none;
+}
+
+
+
 /* Table */
-#userManage .location-table {
+#eventManage .event-table {
     border-collapse: collapse;
-    margin: 25px 0;
+    margin: 10px 0;
     font-size: 1em;
     min-width: 100%;
     border-radius: 5px 5px 0 0;
     overflow: scroll;
 }
 
-#userManage .location-table thead tr {
+#eventManage .event-table thead tr {
     background-color: #dbd4a7;
     color: black;
     text-align: center;
     font-weight: bold;
 }
 
-#userManage .location-table th,
-#userManage .location-table td {
+#eventManage .event-table th,
+#eventManage .event-table td {
     padding: 15px;
     margin: 5px;
     text-align: center;
 }
 
-#userManage .location-table tbody tr {
+#eventManage .event-table tbody tr {
     border-bottom: 1px solid rgb(208, 175, 237);
 }
 
-#userManage .location-table tbody tr:nth-of-type(even) {
+#eventManage .event-table tbody tr:nth-of-type(even) {
     background-color: #93ade7;
 }
