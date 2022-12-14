@@ -1,0 +1,44 @@
+/*Group members
+Hung Man Kei   (1155127099)	 Ng Megan Hoi Ling (1155124894)
+Ching Sze Yuen (1155126621)  Tsai Kwun Ki      (1155126289)*/
+
+.button-button{
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    border: 0;
+    border-radius: 2px;
+    width: 100%;
+    height: 50px;
+    
+}
+
+.button-button:hover{
+    cursor: pointer;
+}
+
+
+.button-chinese-word{
+    font-family: HDFLiHei-Md;
+    padding: 0px 5px;
+
+}
+
+.button-english-word{
+    font-family: HelveticaNeue;
+
+    line-height: 25px;
+}
+
+.button-multiline{
+    flex-direction: column;
+    align-items: center; 
+}
+
+.button-reverse{
+    flex-direction: row-reverse;
+}
+
+.button-center{
+    align-items: center;
+}

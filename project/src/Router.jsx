@@ -16,7 +16,7 @@ import Events from './Admin/events';
 import Users from './Admin/Users';
 
 import EventCRUD from './Admin/eventCRUD';
-import UserCrud from './Admin/userCRUD';
+import Index from './Admin/userCRUD';
 
 
 class Router extends React.Component {
@@ -37,7 +37,7 @@ class Router extends React.Component {
             <Route path="/Admin/Users" element={<Users />} />
 
             <Route path="/Admin/EventCrud" element={<EventCRUD />} />
-            <Route path="/Admin/UserCrud" element={<UserCrud />} />
+            <Route path="/Admin/UserCrud" element={<Index />} />
           </Routes>
         </BrowserRouter>
       </React.StrictMode>
