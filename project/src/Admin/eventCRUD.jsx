@@ -7,7 +7,7 @@
 import { useState, useEffect } from "react";
 import { Navigate, useSearchParams } from "react-router-dom";
 
-//import '../css/admin/locCrud.css';
+import '../CSS/Admin/eventCRUD.css';
 
 //only for admin
 function AdminOnly(){
@@ -21,6 +21,7 @@ function EventCRUD(){
     let [crudResult, setCrudResult] = useState(null)
     let [searchParams, setSearchParams] = useSearchParams()
     let [loc_wrongName,setloc_wrongName] = useState(null);
+    let [loc_wrongPlace,setloc_wrongPlace] = useState(null);
 
     let locId = searchParams.get("id");
     let submitForm = e => {
@@ -62,8 +63,9 @@ function EventCRUD(){
     }
 
     
-    function formValidation(loc_name, loc_lat,loc_long){
+    function formValidation(loc_name, loc_place){
         let loc_wrongName = {};
+        let loc_wrongPlace = {};
         let isValid = false;
     
         if(!loc_name.match("^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$")){
@@ -71,7 +73,14 @@ function EventCRUD(){
             isValid =true;
         }
 
+        if(!loc_place.match("^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$")){
+            loc_wrongPlace = "false";
+            isValid =true;
+        }
+
+
         setloc_wrongName(loc_wrongName);
+        setloc_wrongPlace(loc_wrongPlace);
         return isValid;
     }
 
@@ -83,6 +92,8 @@ function EventCRUD(){
         .then(res => res.json())
         .then(res => setRole(res.role))
         .catch(err => console.log("error: "+err));
+
+        setRole("admin");
 
         if(locId){
             fetch(process.env.REACT_APP_SERVER_URL+"/EventList",{
@@ -100,7 +111,7 @@ function EventCRUD(){
     return(
         <>
             { role === "error" && <Navigate to="/login" /> }
-            { role === "admin" && <CRUDContent loc_wrongName={loc_wrongName} location={location} option={searchParams.get("option")} submitForm={submitForm} crudResult={crudResult}/> }
+            { role === "admin" && <CRUDContent loc_wrongName={loc_wrongName} loc_wrongPlace={loc_wrongPlace} location={location} option={searchParams.get("option")} submitForm={submitForm} crudResult={crudResult}/> }
             { (role !== "admin" && role !== null) && <AdminOnly />}
             { role === null && <LoadContent /> }    
         </>   
@@ -128,7 +139,7 @@ function CRUDContent(props){
     }) 
 
     return(
-        <section id='locationSetting'>
+        <section id='eventSetting'>
             {
                 props.crudResult === "success" &&
                 <div className='row'>
@@ -148,22 +159,30 @@ function CRUDContent(props){
             }
 
 
-            
             <div className='container'>
                 <div className='row'>
-                    <div className='col'>
-                        <h1>Location: {props.option}</h1>
+                    <div className='col col-info info-box'>
+                        <h1>Event {props.option}</h1>
                         <form className="setting-form" onSubmit={props.submitForm}>
-                            <label className="title" htmlFor="name">Location Name: </label><br/>
-                            <input type="text" name="name" placeholder="Location Name"></input><br/>
+                            <label className="title" htmlFor="name">Event Name: </label><br/>
+                            <input type="text" name="name" placeholder="Event Name"></input><br/>
                             {
                                 props.loc_wrongName === "false" && 
                                 <div className='alert alert-danger' role="alert">
                                     Empty field is not allowed. Please enter numbers and letters.
                                 </div>
                             }
-                
 
+                            <label className="title" htmlFor="place">Place: </label><br/>
+                            <input type="text" name="place" placeholder="Place"></input><br/>
+                            {
+                                props.loc_wrongPlace === "false" && 
+                                <div className='alert alert-danger' role="alert">
+                                    Empty field is not allowed. Please enter letters.
+                                </div>
+                            }
+
+                {/* <button className="nav-btn refresh-btn" onClick={props.reloadData}>Refresh</button> */}
                             {props.option!=="read" && <input className="submit-btn" type="submit" value={props.option}/>}
                         </form>
                     </div>

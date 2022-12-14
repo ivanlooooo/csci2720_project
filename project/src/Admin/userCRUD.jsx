@@ -6,7 +6,8 @@
 
 import { useState, useEffect } from "react";
 import { Navigate, useSearchParams } from "react-router-dom";
-//import '../css/admin/userCrud.css';
+
+import '../CSS/Admin/userCRUD.css';
 
 function UserCRUD(){
     let [role, setRole] = useState(null)
@@ -92,6 +93,8 @@ function UserCRUD(){
         .then(res => setRole(res.role))
         .catch(err => console.log("error: "+err));
 
+        setRole("admin");
+
         if(userId){
             fetch(process.env.REACT_APP_SERVER_URL+"/userCredential",{
                 method:"POST",
@@ -159,11 +162,19 @@ function CRUDContent(props){
                           
             <div className='container'>
                 <div className='row'>
-                    <div className='col userinfo-col setting-box'>
-                        <h1>User: {props.option}</h1>
+                    <div className='col user-col-info info-box'>
+                        <h1>User {props.option}</h1>
                     
                         <form className="setting-form" onSubmit={props.submitForm}>
-                            <label htmlFor="name">Username: </label><br/>
+                            <label className="title" htmlFor="role">User or Admin?</label><br/>
+                            <select className="dropbox" name="role">
+                            {/* <select className="dropbox" name="role" disabled> */}
+                                <option value={"user"}>User</option>
+                                <option value={"admin"}>Admin</option>
+                            </select><br/> 
+                            
+                            
+                            <label className="title" htmlFor="name">Username: </label><br/>
                             <input type="text" name="name" placeholder="username"></input><br/>
                             {
                             props.user_wrongUsername === "false" && 
@@ -172,15 +183,10 @@ function CRUDContent(props){
                             </div>
                             }
 
-                            <label htmlFor="role">User or Admin?</label><br/>
-                            <select className="dropbox" name="role" disabled>
-                                <option value={"user"}>User</option>
-                                <option value={"admin"}>Admin</option>
-                            </select><br/> 
 
                             {(props.option!=="read" && props.option!=="delete") && 
                             <>
-                                <label htmlFor="password">Password: </label><br/>
+                                <label className="title" htmlFor="password">Password: </label><br/>
                                 <input type="password" name="password" placeholder="password"></input><br/>
                                 {
                                     props.user_wrongPw === "false" && 
@@ -190,7 +196,7 @@ function CRUDContent(props){
                                 }
                             </>
                             }
-                            {props.option!=="read" && <input type="submit" value={props.option}/>}
+                            {props.option!=="read" && <input className="submit-btn" type="submit" value={props.option}/>}
                         </form>
                     </div>
                 </div>

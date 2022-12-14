@@ -30,8 +30,10 @@ function AdminPanel(){
             <Link className="active" to="/Admin/Home">Home</Link>
             <Link to="/Admin/Events">Events</Link>
             <Link to="/Admin/Users">Users</Link>
+            <Link to="/Admin/EventCrud">Event CRUD</Link>
+            <Link to="/Admin/UserCrud">User CRUD</Link>
             <div className="topnav-right">
-                <a >Hello Admin</a>
+                <a >Hello Admin!</a>
                 <Link to="/Login">Logout</Link>
             </div>
         </div>

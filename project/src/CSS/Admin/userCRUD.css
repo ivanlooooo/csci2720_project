@@ -1,0 +1,90 @@
+/* 
+Au Yeung Hui Kei (1155158820) Chan Gi Wei Violet (1155126648) 
+Kong Ming Kin(1155144268)     Lo Kwun Hei (1155155612) 
+Yeung Ka Him(1155176590)      Yuen Man Yi (1155127553)
+*/
+
+body {
+    background-color: cornsilk;
+}
+
+#userSetting * {
+    font-family: sans-serif;
+}
+
+#userSetting h1 {
+    color: indigo;
+    padding: 15px 0px 15px 10px;
+    margin: 10px;
+}
+
+#userSetting h3 {
+    color: indigo;
+    padding: 10px;
+    margin: 10px;
+}
+
+#userSetting .info-box {
+    display: block;
+    width: 90%;
+    margin: 10px;
+}
+
+
+#userSetting .setting-form .dropbox {
+    margin: 10px 20px;
+}
+
+#userSetting .setting-form .submit-btn:hover {
+    border-color: #dadce0;
+    box-shadow: rgba(0, 0, 0, .1) 0 1px 1px;
+    color: #202124;
+}
+
+#userSetting .setting-form .title{
+    color: maroon;
+    padding: 15px 0px 15px 10px;
+    margin: 10px;
+}
+
+#userSetting .setting-form input,
+#userSetting .setting-form textarea {
+    padding: 10px;
+    margin: 10px 20px 20px 20px;
+    border-radius: 5px;
+    border-color: 1px black;
+    min-width: 100%;
+    border-collapse: collapse;
+
+}
+
+
+/* Submit button */
+
+#userSetting .setting-form text {
+    padding: 15px;
+    margin: 10px;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    background-color: floralwhite;
+}
+
+#userSetting .setting-form .submit-btn {
+    background-color: #f8f9fa;
+    border: 1px solid #f8f9fa;
+    border-radius: 4px;
+    color: #3c4043;
+    cursor: pointer;
+    font-family: arial,sans-serif;
+    font-size: 14px;
+    height: 36px;
+    line-height: 27px;
+    min-width: 54px;
+    padding: 0 16px;
+    text-align: center;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: pre;
+}
