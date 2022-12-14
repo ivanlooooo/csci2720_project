@@ -215,9 +215,9 @@ import React, { useEffect, useState } from "react";
 import { _getUserList, _delUser, _reg, _update } from "../util/req";
 import AddModal from '../component/AddModal';
 import Button from '../component/button';
-//import './style.css';
+import '../CSS/Admin/userCRUD.css';
 
-export default function Index() {
+export default function UserCRUD() {
   
   const TableFilter = (function(Arr) {
 
@@ -249,84 +249,88 @@ export default function Index() {
 	})(Array.prototype);
 
 
-  const [showAddModal,setAddModal] = useState(false);
-  const [showUpdateModal,setUpdateModal] = useState(false);
-  const handleClickAdd = () => {
-    setAddModal(true)
-  }
-  const handleCloseModal = () => {
-    setAddModal(false)
-    setUpdateModal(false);
-    gelist();
-  }
-  const [list, setList] = useState([]);
-  const [infoForm, setInfoForm] = useState({
-    username: "",
-    password: "",
-  });
+    const [showAddModal,setAddModal] = useState(false);
+    const [showUpdateModal,setUpdateModal] = useState(false);
+    const handleClickAdd = () => {
+        setAddModal(true)
+    }
+    const handleCloseModal = () => {
+        setAddModal(false)
+        setUpdateModal(false);
+        gelist();
+    }
+    const [list, setList] = useState([]);
+    const [infoForm, setInfoForm] = useState({
+        username: "",
+        password: "",
+    });
 
-  const gelist = async () => {
-    var res = await _getUserList();
-    setList(res.data);
-  };
-  const del = async (id) => {
-    await _delUser(id);
-    gelist();
-    alert("User Deleted!");
-  };
-  
-  const update = async (it) => {
-    setInfoForm({ ...it });
-    setUpdateModal(true);
-  };
+    const gelist = async () => {
+        var res = await _getUserList();
+        setList(res.data);
+    };
+    const del = async (id) => {
+        await _delUser(id);
+        gelist();
+        alert("User Deleted!");
+    };
+    
+    const update = async (it) => {
+        setInfoForm({ ...it });
+        setUpdateModal(true);
+    };
 
-  useEffect(() => {
-    TableFilter.init();
-    gelist();
-  }, []);
+    useEffect(() => {
+        TableFilter.init();
+        gelist();
+    }, []);
 
-  return (
-    <div className="page-container">
-      <br />
-      <br />
-      <div className="button-container">
-      <div className="user-button">
-        <Button  onClick={handleClickAdd} englishLabel="Create User"/>
-      </div>
-      </div>
+    return (
+        <div className="page-container">
 
-      <input type="search" class="table-filter" data-table="table" placeholder="search data in any field"/>
-
-
-      <table  className="table">
-        <thead>
-          <tr>
-            <td>Username</td>
-            <td>Password</td>
-            <td>Action</td>
-          </tr>
-        </thead>
-        <tbody>
-          {list.map((it, index) => (
-            <tr key={index}>
-              <td>{it.username}</td>
-              <td>{it.password}</td>
-              <td>
-                <div className="table-action-container">
-                  <div className="user-button">
-                    <Button className="up-del-button" englishLabel="Update" onClick={() => update(it)}/>
-                  </div>
-                  <div className="user-button">
-                    <Button englishLabel="Delete" onClick={() => del(it._id)}/>
-                  </div>
+            <div className="button-container">
+                <div className="user-button">
+                    <Button  onClick={handleClickAdd} englishLabel="Create User"/>
                 </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      {showAddModal&&<AddModal className="admin-modal" onClickClose={handleCloseModal}></AddModal>}
-      {showUpdateModal&&<AddModal up infoForm={infoForm} className="admin-modal" onClickClose={handleCloseModal}></AddModal>}
-    </div>
-  );
+            </div>
+
+            <input type="search" class="table-filter" data-table="table" placeholder="search data in any field"/>
+
+
+            <div className='row'>
+                <div className='col'>
+                    <table  className="table">
+                        <thead>
+                            <tr className="first-row" >
+                                <th>Username</th>
+                                <th>Password</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                        {list.map((it, index) => (
+                            <tr key={index}>
+                            <td>{it.username}</td>
+                            <td>{it.password}</td>
+                            <td>
+                                <div className="table-action-container">
+                                <div className="user-button">
+                                    <Button className="up-del-button" englishLabel="Update" onClick={() => update(it)}/>
+                                </div>
+                                <div className="user-button">
+                                    <Button englishLabel="Delete" onClick={() => del(it._id)}/>
+                                </div>
+                                </div>
+                            </td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                    {showAddModal&&<AddModal className="admin-modal" onClickClose={handleCloseModal}></AddModal>}
+                    {showUpdateModal&&<AddModal up infoForm={infoForm} className="admin-modal" onClickClose={handleCloseModal}></AddModal>}
+                </div>
+            </div>
+        </div>
+    );
 }

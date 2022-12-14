@@ -71,7 +71,7 @@ body {
 
 
 /* Table */
-#userManage .location-table {
+#userManage .user-table {
     border-collapse: collapse;
     margin: 25px 0;
     font-size: 1em;
@@ -80,24 +80,24 @@ body {
     overflow: scroll;
 }
 
-#userManage .location-table thead tr {
+#userManage .user-table thead tr {
     background-color: #dbd4a7;
     color: black;
     text-align: center;
     font-weight: bold;
 }
 
-#userManage .location-table th,
-#userManage .location-table td {
+#userManage .user-table th,
+#userManage .user-table td {
     padding: 15px;
     margin: 5px;
     text-align: center;
 }
 
-#userManage .location-table tbody tr {
+#userManage .user-table tbody tr {
     border-bottom: 1px solid rgb(208, 175, 237);
 }
 
-#userManage .location-table tbody tr:nth-of-type(even) {
+#userManage .user-table tbody tr:nth-of-type(even) {
     background-color: #93ade7;
 }

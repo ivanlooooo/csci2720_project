@@ -81,7 +81,7 @@ return(
 
         <div className='row'>
             <div className='col'>
-                <table className="location-table">
+                <table className="user-table">
                     <thead>
                         <tr className="first-row">
                             <th>Username</th>

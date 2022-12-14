@@ -9,10 +9,10 @@ Yeung Ka Him(1155176590)      Yuen Man Yi (1155127553)
     justify-content: center;
     align-items: baseline;
     border: 0;
-    border-radius: 2px;
+    border-radius: 5px;
     width: 100%;
-    height: 50px;
-    
+    padding: 10px;
+    background-color: lightsteelblue;
 }
 
 .button-button:hover{
@@ -20,15 +20,8 @@ Yeung Ka Him(1155176590)      Yuen Man Yi (1155127553)
 }
 
 
-.button-chinese-word{
-    font-family: HDFLiHei-Md;
-    padding: 0px 5px;
-
-}
-
 .button-english-word{
     font-family: HelveticaNeue;
-
     line-height: 25px;
 }
 

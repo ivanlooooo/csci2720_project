@@ -10,10 +10,7 @@ import CloseButton from '../CloseButton'
 const ModalWithTitle = (props) => {
   return(
     <Modal>
-        <div className="modalwithtitle-top" style={{backgroundColor:props.backgroundColor||"#1f6332",color:props.color||"#ffffff"}}>
-					<div className="modalwithtitle-chinese-title">
-						{props.chineseTitle}
-					</div>
+        <div className="modalwithtitle-top" >
 					<div className="modalwithtitle-english-title">
 						{props.englishTitle}	
 					</div>

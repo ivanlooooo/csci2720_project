@@ -8,12 +8,9 @@ Yeung Ka Him(1155176590)      Yuen Man Yi (1155127553)
     display: flex;
     align-items: center;
     padding: 20px 30px;
+    background-color: lightsteelblue;
 }
 
-.modalwithtitle-chinese-title{
-    flex:none;
-    margin-right: 10px;
-}
 
 .modalwithtitle-english-title{
     flex: none;

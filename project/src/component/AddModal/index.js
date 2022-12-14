@@ -70,7 +70,7 @@ export default function AddModal(props)  {
 		<div className="addmodal-container">
 			<div className="addmodal-title-container">
 				<span className="addmodal-english-title">
-					User Name:{" "}
+					Username:{" "}
 				</span>
 			</div>
 			<div className="addmodal-input-container">
@@ -98,7 +98,7 @@ export default function AddModal(props)  {
 			</div>
 			<div className="addmodal-button-container">
 				<div className="addmodal-button">
-					<Button chineseLabel="確認" englishLabel="Confirm" onClick={save} >
+					<Button englishLabel="Confirm" onClick={save} >
 						{info._id ? "Save" : "Create"}
 					</Button>
 				</div>
