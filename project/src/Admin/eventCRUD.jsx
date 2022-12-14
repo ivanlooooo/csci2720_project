@@ -162,7 +162,9 @@ function CRUDContent(props){
             <div className='container'>
                 <div className='row'>
                     <div className='col col-info info-box'>
-                        <h1>Event {props.option}</h1>
+                        <div className='banner'>
+                            <h1>Event {props.option}</h1>
+                        </div>
                         <form className="setting-form" onSubmit={props.submitForm}>
                             <label className="title" htmlFor="name">Event Name: </label><br/>
                             <input type="text" name="name" placeholder="Event Name"></input><br/>

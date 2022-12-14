@@ -163,7 +163,9 @@ function CRUDContent(props){
             <div className='container'>
                 <div className='row'>
                     <div className='col user-col-info info-box'>
-                        <h1>User {props.option}</h1>
+                        <div className='banner'>
+                            <h1>User {props.option}</h1>
+                        </div>
                     
                         <form className="setting-form" onSubmit={props.submitForm}>
                             <label className="title" htmlFor="role">User or Admin?</label><br/>

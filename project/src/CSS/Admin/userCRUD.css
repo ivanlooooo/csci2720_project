@@ -14,8 +14,15 @@ body {
 
 #userSetting h1 {
     color: indigo;
-    padding: 15px 0px 15px 10px;
+}
+
+#userSetting .container .banner {
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    padding: 10px 0px 10px 10px;
     margin: 10px;
+    background-color: lavender;
 }
 
 #userSetting h3 {
@@ -53,7 +60,7 @@ body {
     margin: 10px 20px 20px 20px;
     border-radius: 5px;
     border-color: 1px black;
-    min-width: 100%;
+    min-width: 97%;
     border-collapse: collapse;
 
 }
