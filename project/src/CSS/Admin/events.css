@@ -8,18 +8,12 @@ body {
     background-color: cornsilk;
 }
 
-#eventManage * {
-    padding: 0px 10px;
-    font-family: sans-serif;
-}
-
 #eventManage h1 {
     color: indigo;
-    margin-top: 15px;
-    padding: 15px 0;
+    padding: 15px;
 }
 
-/* Button */
+/* Create event button */
 #eventManage .fnt-nav {
     text-align: left;
     padding: 0px 20px 10px 10px;
@@ -95,16 +89,10 @@ body {
     white-space: pre;
 }
 
-
 #eventManage .refresh-btn:hover {
   border-color: #dadce0;
   box-shadow: rgba(0, 0, 0, .1) 0 1px 1px;
   color: #202124;
-}
-
-#eventManage .refresh-btn:focus {
-  border-color: #4285f4;
-  outline: none;
 }
 
 

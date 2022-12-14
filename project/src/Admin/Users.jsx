@@ -9,14 +9,14 @@
 import { useNavigate, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-import '../CSS/Admin/chooseUser.css';
+import '../CSS/Admin/Users.css';
 
 //only for admin
 function AdminOnly(){
     return <h3>Admin only, please log in as admin.</h3>
 }
 
-function ChooseUser(){
+function Users(){
 let navigate = useNavigate();
 let [role, setRole] = useState(null)
 let [users, setUsers] = useState(null)
@@ -108,4 +108,4 @@ return(
 )
 }
 
-export default ChooseUser;
+export default Users;

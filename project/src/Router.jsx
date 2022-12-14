@@ -10,11 +10,13 @@ import UserControl from './User/UserControl';
 import UserFav from './User/UserFavourite';
 import UserSearch from './User/UserSearch';
 
+import AdminHome from './Admin/adminHome';
 import Events from './Admin/events';
-import ChooseUser from './Admin/chooseUserCRUD';
+import Users from './Admin/Users';
 
 import EventCRUD from './Admin/eventCRUD';
 import UserCrud from './Admin/userCRUD';
+import AdminControl from './Admin/adminControl';
 
 class Router extends React.Component {
   render() {
@@ -28,8 +30,10 @@ class Router extends React.Component {
             <Route path="/User/Search" element={<UserSearch />} />
             <Route path="/User/Favourite" element={<UserFav />} />
 
-            <Route path="/Admin" element={<Events />} />
-            <Route path="/Admin/ChooseUser" element={<ChooseUser />} />
+            <Route path="/Admin" element={<AdminControl />} />
+            <Route path="/Admin/Home" element={<AdminHome />} />
+            <Route path="/Admin/Events" element={<Events />} />
+            <Route path="/Admin/Users" element={<Users />} />
 
             <Route path="/Admin/LocCrud" element={<EventCRUD />} />
             <Route path="/Admin/UserCrud" element={<UserCrud />} />
