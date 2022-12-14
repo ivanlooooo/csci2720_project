@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Navigate } from "react-router-dom";
+import './CSS/login.css';
 
 function Login(){
     let [role,setRole] = useState('');
@@ -24,7 +25,7 @@ function Login(){
         if(username == "Hannah" && password == "Hello")  setRole('user')
    }
     return(
-        <div id='logInPage'>
+        <div className='logInPage'>
             <header>
                 <h5>Log in page- CSCI2720 Project</h5>
             </header>
@@ -36,9 +37,9 @@ function Login(){
                 <div className='loginBox'>
                     <form onSubmit={logInPage}>
                         <label htmlFor="username">Username:</label>
-                        <input type="text" name="username"></input><br />
+                        <input type="text" name="username" required></input><br />
                         <label htmlFor="password">Password:</label>
-                        <input type="password" name="password"></input><br />
+                        <input type="password" name="password" required></input><br />
                         <input className='loginbtn' type="submit" value="Login" />
                     </form>
                 </div>
