@@ -1,3 +1,8 @@
+
+.LocCURD h3 {
+    margin-left: 20px;
+}
+
 .findUser {
     padding: 5%;
 }
@@ -14,11 +19,11 @@ table.UserSearchResult {
 
 table.UserSearchResult th.columnName {
     text-decoration: underline;
-    text-align: left;
+    text-align: center;
     line-height: 200%;
 }
 table.UserSearchResult td.Cell {
-    text-align: left;
+    text-align: center;
     line-height: 200%;
     width: 15%
 }
