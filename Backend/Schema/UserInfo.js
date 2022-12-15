@@ -3,8 +3,8 @@ var mongoose = require('mongoose');
 const UserSchema = mongoose.Schema({
     Username: {type: String, required: true, unique: true },
     Password: {type: String, required:true},
-    favourite: { type: mongoose.Schema.Types.ObjectId, ref: 'Location'},
-    role: {type: String },
+    favourite: { type: mongoose.Schema.Types.ObjectId, ref: 'Favourite'},
+    role: {type: String ,required:true},
     salt: { type: String }
 })
 

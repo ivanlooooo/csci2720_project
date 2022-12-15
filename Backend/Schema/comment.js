@@ -6,6 +6,6 @@ const CommentSchema = mongoose.Schema({
     content: { type: String },
     updatedAt: { type: Date }
 });
-const Comment = mongoose.model('Comment', CommentSchema);
+const Comments = mongoose.model('Comment', CommentSchema);
 
-module.exports = Comment;
+module.exports = Comments;

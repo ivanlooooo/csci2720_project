@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
-const Comment = require('./Schema/Comment');
+const Comment = require('../Schema/comment');
 
 
 CommentAPI={
