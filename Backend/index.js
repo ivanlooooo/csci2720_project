@@ -113,7 +113,7 @@ db.once('open',  () =>{
       }
     })
     //admin CURD: user
-      app.post("/userCredential", async(req, res) => {
+      app.post("/userManage", async(req, res) => {
         let { userId, option, newCredential } = req.body;
         let cookieUsrId = req.signedCookies.usrId;
         try {
