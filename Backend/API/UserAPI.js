@@ -6,8 +6,8 @@ const Location = require('../Schema/Location');
 const UserInfo = require('../Schema/UserInfo');
 const Favourite  = require('../Schema/Favourite');
 
-Users = {
-    creat: async (newUsername,newPassword,favouritLoc) =>{
+UsersAPI = {
+    create: async (newUsername,newPassword,favouritLoc)=>new Promise((res, rej) => {
         let verifyUser = (newUsername,newPassword) =>  new Promise(async(res, rej) => {
                 if(newUsername === "" || newUsername=== null || newPassword === "" || newPassword=== null){
                     rej("User name or password cannot be empty");
@@ -31,9 +31,9 @@ Users = {
                     }
                 })
         });
-        let hashPassword = (newUsername,newPassword) => Promise(async(res, rej) => {
+        let hashPassword = (newPassword) =>new  Promise(async(res, rej) => {
             const salt = await bcrypt.genSalt(10);
-            const hash_password = await bcrypt.hash(newCredential.password, salt)
+            const hash_password = await bcrypt.hash(newPassword, salt)
             const result = {};
             result.salt = salt;
             result.hash_password = hash_password;
@@ -41,7 +41,7 @@ Users = {
         });
         let createFav = (result,favouriteLoc) => new Promise(async(res, rej) => {
             Favourite.create({
-                locations: favouriteLoc.Comment,
+                locations: favouriteLoc,
             }, (err, e) => {
                 if(err) {
                     rej(err);
@@ -77,15 +77,15 @@ Users = {
         });
         return verifyUser(newUsername,newPassword).then(
             async()=>{
-                return await hashPassword(newUsername,newPassword)
+                return await hashPassword(newPassword)
                     .then(result=> createFav(result,favouritLoc))
                     .then(result=> CreateUser(newUsername,result))
             }
         )
-    },
+    }),
 
     //Generate All user list
-    read: async() =>{
+    read: async=>new Promise((res, rej) => {
         UserInfo.findOne({_id: mongoose.Types.ObjectId(String(usrId))})
         .exec(async(error, result) => {
             if (error){
@@ -102,9 +102,9 @@ Users = {
                 res(user);
             }
         })
-    },
+    }),
 
-    readAll : async =>{
+    readAll : async =>new Promise((res, rej) => {
         UserInfo.find()
         .exec(async(error, results) => {
             const userList=[]
@@ -123,7 +123,7 @@ Users = {
             }
             res(userList);
         })
-    },
+    }),
     update : async(userId,  newUsername,newPassword ) =>{
         if(newUsername === "" || newUsername=== null || newPassword === "" || newPassword=== null){
             rej("User name or password cannot be empty");
@@ -222,4 +222,4 @@ Users = {
     }
 }
 
-module.exports = Users;
+module.exports = UsersAPI;

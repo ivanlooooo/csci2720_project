@@ -18,7 +18,7 @@ CommentAPI={
         }
      })
     }),
-    read:  locationId => new Promise((res, rej) => { 
+    read:  (locationId) => new Promise((res, rej) => { 
         Comment.find({
             locId: mongoose.Types.ObjectId(String(locationId))
             })
