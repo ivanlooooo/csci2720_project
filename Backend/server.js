@@ -9,4 +9,4 @@ db.on('error', console.error.bind(console, 'Connection error:'));
 const cors = require('cors'); 
 app.use(cors());
 
-const server = app.listen(3000);
+const server = app.listen(8080);
