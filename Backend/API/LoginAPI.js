@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const UserInfo = require('../Schema/UserInfo.js');
+const UserInfo = require('../Schema/UserInfo');
 const bcrypt = require("bcrypt");
 
 LoginAPI = {
@@ -11,14 +11,14 @@ LoginAPI = {
             if (err)
                     rej(err)
                 else if (e.length === 0)
-                    rej("User is not founded");
+                    rej("User name not found");
                 else{
                     for (let ele of e) {
                         let hashed = await bcrypt.hash(pw, ele.salt); //salt=seed
                         if (hashed === ele.password) { // rej if wrong
                             res(ele._id);
                         } else {
-                            rej("user credential is not matched");
+                            rej("Plz ensure your username and password are correct");
                         }
                     }
                 }
@@ -31,9 +31,9 @@ LoginAPI = {
             if (err) {
                 rej(err);
             } else if (e === null)
-                rej("Error in \"checkr\" in checkRole() function");
+                rej("Error in checking role");
             else
-                res( e.urole === "admin" ? "admin": "user");
+                res( e.role === "admin" ? "admin": "user");
         });
     })
 }

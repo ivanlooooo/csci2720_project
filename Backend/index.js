@@ -76,7 +76,6 @@ db.once('open',  () =>{
     try {
         switch (option) {
             case "create":
-                console.log(locationId, option, newComments)
                 if (await CommentAPI.create(usrId, locationId, newComments)) res.send({ result: "success" });
                 break;
             case "read":
