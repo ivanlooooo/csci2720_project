@@ -7,23 +7,31 @@ const UserInfo = require('../Schema/UserInfo');
 
 Locations = {
     create: async(id,newName, newLongitude, newLatitude) =>new Promise((res, rej) => {
-            Event.findOne({eventId: id})
+        console.log (id,newName, newLongitude, newLatitude)
+            Location.findOne({locId: id})
             .exec((err,e)=>{
               if(err) {
                 rej(err); 
               } 
-              else if (!(e===null)) rej("Id exist");
+              else 
+              if (e !== null) rej("Id exist");
               else{
-                e.name= newName;
-                e.longitude =newLongitude;
-                e.latitude = newLatitude;
-                e.locId = id;
-                e.save().then(()=> res(e.eventId));
+                Location.create({
+                    name: newName,
+                    longitude: newLongitude,
+                    latitude: newLatitude,
+                    locId : id
+                  },(err, e) => {
+                    if (err)
+                      rej(err)
+                    else 
+                      res(e)
+                  })
               }
             })
           }),
 
-    get: async(id) =>new Promise((res, rej) => {
+    get:  async(id) =>new Promise((res, rej) => {
         Location.findOne({locId: id})
         .exec((err, e) => {
             if (err)
@@ -31,12 +39,12 @@ Locations = {
             else if (e === null)
             res.status(404).send(`{"error":"cannot find location}`)
             else{
-            const loc={}
-            loc.name = e.name
-            loc.longitude = e.longitude 
-            loc.latitude= e.atitude
-            loc.locId  = e.latitude
-            res.send(loc);
+            const loc={};
+            loc.name = e.name;
+            loc.longitude = e.longitude; 
+            loc.latitude= e.latitude;
+            loc.locId  = e.latitude;
+            res(loc);
             return;
             };
         })
@@ -112,7 +120,7 @@ Locations = {
         })
     }),
     update: async(id,newName, newLongitude, newLatitude) =>new Promise((res, rej) => {
-        Location.findOne({locId:locationId})
+        Location.findOne({locId:id})
         .exec((err,e)=>{
             if(err) {
               rej(err); 
@@ -123,33 +131,30 @@ Locations = {
                 e.longitude =newLongitude;
                 e.latitude = newLatitude;
                 e.locId = id;
-                e.save().then(()=> res(e.eventId));
+                e.save().then(()=> res(e.locId));
             }
         })
     }),
-    delete : (locationId) =>{
+    delete : (locationId)=>{
         let deletLocation = (locationId)=> new Promise((res, rej) => {
-            Location.deleteOne({locId: mongoose.Types.ObjectId(String(locationId))})
+            Location.deleteOne({locId:locationId})
             .remove()
             .exec((err, e) => {
-            res.contentType('text/plain');
-            if (err) res.status(404).send("Error: "+err);
-            else if (e.deletedCount === 0) res.status(404).send("Event "+req.params['eventId']+ " NOT EXIST" )
-            else res.status(204).send();
+            if (err) rej(err)
+            else if (e.deletedCount === 0) rej("Location NOT EXIST" )
+            else res();
             })
         })
         let deletComment = (locationId)=> new Promise((res, rej) => {
-            Comment.deleteMany({locId: mongoose.Types.ObjectId(String(locationId))})
+            Comment.deleteMany({locId: locationId})
             .exec((err, e) => {
-            res.contentType('text/plain');
-            if (err) res.status(404).send("Error: "+err);
-            else if (e.deletedCount === 0) res.status(404).send("Event "+req.params['eventId']+ " NOT EXIST" )
-            else res.status(204).send();
+            if (err) rej(err)
+            else if (e.deletedCount === 0) rej("Comment of Location NOT EXIST" )
+            else res();
             })
         })
         return deletLocation(locationId)
         .then (()=> deletComment(locationId))
-        .catch(err => res.send(err));
     }
 }
 
