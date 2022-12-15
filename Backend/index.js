@@ -54,8 +54,9 @@ db.once('open',  () =>{
 
   app.post("/checkRole", async(req, res) => {
     let usrId = req.signedCookies.usrId;
+    let { username } = req.body;
     try {
-        let usrRole = await LoginAPI.checkRole(usrId);
+        let usrRole = await LoginAPI.checkRole(username);
         if (usrRole)
           res.cookie('usrId', usrId, {
             httpOnly: true,
@@ -63,7 +64,7 @@ db.once('open',  () =>{
             maxAge: 10 * 60 * 1000
           }).send({ role: usrRole })
     } catch (e) {
-      onsole.log("err: " + e)
+      console.log("err: " + e)
       res.send({ error: e })
     }
   })
@@ -71,11 +72,12 @@ db.once('open',  () =>{
   //Option: Create / Read usercomments
   app.post("/userComments", async(req, res) => {
     let usrId = req.signedCookies.usrId;
-    let { locationId, option, newComments } = req.body;
+    let { username, locationId, option, newComments } = req.body;
+    locationId = Number(locationId)
     try {
         switch (option) {
             case "create":
-                if (await CommentAPI.create(usrId, locationId, newComments)) res.send({ result: "success" });
+                if (await CommentAPI.create(username, locationId, newComments)) res.send({ result: "success" });
                 break;
             case "read":
                 res.send(await CommentAPI.read(locationId));
@@ -92,7 +94,7 @@ db.once('open',  () =>{
    //Option: Create / Read user favourite
   app.post("/userFav", async(req, res) => {
       let usrId = req.signedCookies.usrId;
-      let { locationId, option } = req.body;
+      let { username,locationId, option } = req.body;
 
       try {
           switch (option) {
