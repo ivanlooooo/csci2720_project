@@ -2,28 +2,8 @@ import { useState, useEffect } from 'react';
 import { Navigate } from "react-router-dom";
 import './CSS/login.css';
 
+
 function Login(){
-    let [role,setRole] = useState('');
-
-    var objPeople = [
-        {
-            username: "Hannah",
-            password: "Hello",
-            role: "user"
-        },
-        {
-            username: "Admin",
-            password: "Admin",
-            role: "Admin"
-        }
-    ]
-
-   let logInPage = e =>{
-        e.preventDefault();
-        let username = e.target.username.value;
-        let password = e.target.password.value;
-        if(username == "Hannah" && password == "Hello")  setRole('user')
-   }
     return(
         <div className='logInPage'>
             <header>
@@ -37,9 +17,9 @@ function Login(){
                 <div className='loginBox'>
                     <form onSubmit={logInPage}>
                         <label htmlFor="username">Username:</label>
-                        <input type="text" name="username" required></input><br />
+                        <input type="text" name="username" onChange={e => setUserName(e.target.value)} required></input><br />
                         <label htmlFor="password">Password:</label>
-                        <input type="password" name="password" required></input><br />
+                        <input type="password" name="password" onChange={e => setPassword(e.target.value)} required></input><br />
                         <input className='loginbtn' type="submit" value="Login" />
                     </form>
                 </div>
@@ -47,5 +27,6 @@ function Login(){
         </div>
     )
 }
+
 
 export default Login;

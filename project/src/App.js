@@ -1,5 +1,5 @@
 import logo from './logo.svg';
-import './App.css';
+import './CSS//App.css';
 
 function App() {
   return (
@@ -16,7 +16,6 @@ function App() {
           rel="noopener noreferrer"
         >
           Learn React
-          Hi I am trying git
         </a>
       </header>
     </div>
