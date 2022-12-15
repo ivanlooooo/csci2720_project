@@ -1,0 +1,26 @@
+.findUser {
+    padding: 5%;
+}
+
+.UserSearchBar {
+    width: 90%;
+    margin: 5%;
+    padding: 5px;
+}
+
+table.UserSearchResult {
+    width: 100%;
+}
+
+table.UserSearchResult th.columnName {
+    text-decoration: underline;
+    text-align: left;
+    line-height: 200%;
+}
+table.UserSearchResult td.Cell {
+    text-align: left;
+    line-height: 200%;
+    width: 15%
+}
+
+/* table.UserSearchResult th */
