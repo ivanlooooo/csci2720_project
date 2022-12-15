@@ -7,7 +7,6 @@ const UserInfo = require('../Schema/UserInfo');
 
 Locations = {
     create: async(id,newName, newLongitude, newLatitude) =>new Promise((res, rej) => {
-        console.log (id,newName, newLongitude, newLatitude)
             Location.findOne({locId: id})
             .exec((err,e)=>{
               if(err) {
