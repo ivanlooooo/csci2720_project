@@ -63,7 +63,7 @@ Users = {
                 salt: result.salt,
                 Password : result.hash_password,
                 role: "User",
-                Favourite : result._id
+                favourite : result._id
             }), (err, e) => {
                 if(err) {
                     rej(err)
@@ -94,6 +94,12 @@ Users = {
             }
             else if (result === null){
                 rej("User Id not found")
+            } else {
+                const user={};
+                user._id = String(result._id);
+                user.name = result.password;
+                user.role = result.role;
+                res(user);
             }
         })
     },
@@ -118,11 +124,101 @@ Users = {
             res(userList);
         })
     },
-    update : async =>{
+    update : async(userId,  newUsername,newPassword ) =>{
+        if(newUsername === "" || newUsername=== null || newPassword === "" || newPassword=== null){
+            rej("User name or password cannot be empty");
+            return;
+        }
+        UserInfo.findOne({_id: mongoose.Types.ObjectId(String(userId))})
+        .exec(async(error, result) => {
+            if(error){
+                rej(error);
+                return;
+            }else if (result === null){
+                rej("User Id not found")
+            } else {
+                salt = result.salt;
+                const hash_password = await bcrypt.hash(newCredential.password, salt);
+                result.Username = newUsername;
+                user.Password = newPassword;
+                result. save()
+                    .then(result=>{res(result)})
+                    .catch(err=> rej(err))
+            }
+        })
 
     },
-    delete : async =>{
+    delete : async(userId) =>{
+        let checkRole = (userId) =>new Promise((res, rej) => {
+            UserInfo.findOne({_id: mongoose.Types.ObjectId(String(userId))}).exec(async(error, result) => {
+                result.role === "admin"? rej("Admin cannot be deleted"):res();
+            })
+        })
+        let findFavId = (userId) => new Promise((res, rej) => {
+            UserInfo.findOne({ _id: mongoose.Types.ObjectId(String(userId))})
+            .populate('favourite')
+            .exec((error, e) => {
+                if(error){
+                    rej(error);
+                    return;
+                }else if (e === null){
+                    rej("Favourite Id not found")
+                } else {
+                    if ('favourite' in e && e.favourite !== undefined) {
+                        res(e.favourite._id);
+                    }
+                }
+            });
+        });
+        let deleteFavourite =(favouritelistId)=> new Promise((res, rej) => {
+            Favourite.deleteOne({_id: mongoose.Types.ObjectId(String(favouritelistId)) })
+            .exec((err, e) => {
+                if(error){
+                    rej(error);
+                    return;
+                }else if (e === null){
+                    rej("Favourite Id cannot be delete");
+                    return;
+                } else {
+                    res(e);
+                    return;
+                }
+            });
+        });
 
+        let deleteComment = (userId) => new Promise((res, rej) => {
+            Comment.deleteMany({User: mongoose.Types.ObjectId(String(userId))})
+            .exec((err, e) => {
+                if(error){
+                    rej(error);
+                    return;
+                }else {
+                    res(e);
+                    return;
+                }
+            });
+        });
+
+        let delUser =(userId) => new Promise((res, rej) => {
+            UserInfo.deleteOne({_id: mongoose.Types.ObjectId(String(userId)) })
+            .exec((err, e) => {
+                if(error){
+                    rej(error);
+                    return;
+                }else {
+                    res(e);
+                    return;
+                }
+            });
+        });
+
+        return checkRole(userId)
+        .then(()=>findFavId(userId))
+        .then((result)=>deleteFavourite(userId))
+        .then(()=>deleteComment(userId))
+        .then(()=>delUser(userId))
+        .then((e)=> console.log(e))
+        .catch(err =>console.log(err));
     }
 }
 

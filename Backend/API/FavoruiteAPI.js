@@ -111,7 +111,7 @@ FavouriteAPI={
         }
         return checkLocation(locationId)
             .then(()=>findFavourite(userId))
-            .then((result => updateFav(result,locationId)))
+            .then((result)=> updateFav(result,locationId))
     }
 }
 module.exports = FavouriteAPI;
