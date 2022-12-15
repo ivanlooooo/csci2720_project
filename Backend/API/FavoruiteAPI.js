@@ -22,6 +22,7 @@ FavouriteAPI={
         let findFavourite = (userId)  => new Promise((res, rej) => {
             UserInfo
             .findOne({_id: mongoose.Types.ObjectId(String(usrId)) })
+            .pop
         })  
 
         return checkLocation(locationId)
