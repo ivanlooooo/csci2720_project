@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import '../CSS/User/UserPanel.css';
 
-function UserPanel() {
+function AdminPanel() {
     const [userName, setUserName] = useState('');
     //Need set user name after back end build
     return (
@@ -19,4 +19,4 @@ function UserPanel() {
     )
 }
 
-export default UserPanel;
+export default AdminPanel;
