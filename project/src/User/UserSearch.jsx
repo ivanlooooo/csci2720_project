@@ -66,9 +66,9 @@ function UserSearch() {
                     <tr>
                         <th className="columnName" id="Venue">Venue</th>
                         <th className="columnName" id="Location">Location</th>
-                        <th className="ColumnName" id="NoOfEvents" onClick={handleClickNo}>No of Events {sortByNo?'↑':'↓'}</th>
-                        <th className="ColumnName" id="MinTrafficSpeed" onClick={handleClickMin}>Min Traffic Speed {sortByMin?'↑':'↓'}</th>
-                        <th className="ColumnName" id="MaxTrafficSpeed" onClick={handleClickMax}>Max Traffic Speed {sortByMax?'↑':'↓'}</th>
+                        <th className="ColumnName" id="NoOfEvents"><a onClick={handleClickNo}>No of Events {sortByNo?'↑':'↓'}</a></th>
+                        <th className="ColumnName" id="MinTrafficSpeed"><a onClick={handleClickMin}>Min Traffic Speed {sortByMin?'↑':'↓'}</a></th>
+                        <th className="ColumnName" id="MaxTrafficSpeed"><a onClick={handleClickMax}>Max Traffic Speed {sortByMax?'↑':'↓'}</a></th>
                     </tr>
                     {data.map((key) => {
                         return (
