@@ -15,8 +15,8 @@ LoginAPI = {
                     rej("User name not found");
                 else{
                     for (let ele of e) {
-                        let hashed = await bcrypt.hash(pw, ele.salt); //salt=seed
-                        if (hashed === ele.password) { // rej if wrong
+                        let hashed = await bcrypt.hash(pw, ele.salt); 
+                        if (hashed === ele.Password) { // rej if wrong
                             res(ele._id);
                         } else {
                             rej("Plz ensure your username and password are correct");
@@ -25,9 +25,9 @@ LoginAPI = {
                 }
         })
     }),
-    checkRole: (userId)  => new Promise((res, rej) => {
+    checkRole: (name)  => new Promise((res, rej) => {
         UserInfo.findOne({
-            _id: mongoose.Types.ObjectId(String(usrId))
+            Username: name
         }).exec((err, e) => {
             if (err) {
                 rej(err);

@@ -54,8 +54,9 @@ db.once('open',  () =>{
 
   app.post("/checkRole", async(req, res) => {
     let usrId = req.signedCookies.usrId;
+    let { username } = req.body;
     try {
-        let usrRole = await LoginAPI.checkRole(usrId);
+        let usrRole = await LoginAPI.checkRole(username);
         if (usrRole)
           res.cookie('usrId', usrId, {
             httpOnly: true,
@@ -63,7 +64,7 @@ db.once('open',  () =>{
             maxAge: 10 * 60 * 1000
           }).send({ role: usrRole })
     } catch (e) {
-      onsole.log("err: " + e)
+      console.log("err: " + e)
       res.send({ error: e })
     }
   })
@@ -71,11 +72,12 @@ db.once('open',  () =>{
   //Option: Create / Read usercomments
   app.post("/userComments", async(req, res) => {
     let usrId = req.signedCookies.usrId;
-    let { locationId, option, newComments } = req.body;
+    let { username, locationId, option, newComments } = req.body;
+    locationId = Number(locationId)
     try {
         switch (option) {
             case "create":
-                if (await CommentAPI.create(usrId, locationId, newComments)) res.send({ result: "success" });
+                if (await CommentAPI.create(username, locationId, newComments)) res.send({ result: "success" });
                 break;
             case "read":
                 res.send(await CommentAPI.read(locationId));
@@ -92,7 +94,7 @@ db.once('open',  () =>{
    //Option: Create / Read user favourite
   app.post("/userFav", async(req, res) => {
       let usrId = req.signedCookies.usrId;
-      let { locationId, option } = req.body;
+      let { username,locationId, option } = req.body;
 
       try {
           switch (option) {
@@ -113,27 +115,24 @@ db.once('open',  () =>{
 
     //admin CURD: user
       app.post("/userManage", async(req, res) => {
-        let { userId, option, newUsername,newPassword,favourite } = req.body;
+        let { option, newUsername,newPassword} = req.body;
         let cookieUsrId = req.signedCookies.usrId;
         try {
           switch (option) {
               case "create":
-                  if (await UsersAPI.create(newUsername,newPassword,favourite )) res.send({ result: "success" }); 
+                  if (await UsersAPI.create(newUsername,newPassword)) res.send({ result: "success" }); 
                   break;
               case "read":
-                  res.send(await UsersAPI.read(userId)); 
-                  break;
-              case "readByCookie":
-                  res.send(await UsersAPI.read(cookieUsrId));
+                  res.send(await UsersAPI.read(newUsername)); 
                   break;
               case "readAll":
                   res.send(await UsersAPI.readAll()); // notes return roles too, check for no such id
                   break;
               case "update":
-                  if (await UsersAPI.update(userId,  newUsername,newPassword )) res.send({ result: "success" }); //note check same, check invalid input
+                  if (await UsersAPI.update(newUsername,newPassword )) res.send({ result: "success" }); //note check same, check invalid input
                   break;
               case "delete":
-                  if (await UsersAPI.delete(userId)) res.send({ result: "success" }); //note cannot delete admin
+                  if (await UsersAPI.delete(newUsername)) res.send({ result: "success" }); //note cannot delete admin
                   break;
               default:
                   res.status(404).send([])
