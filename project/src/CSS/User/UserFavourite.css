@@ -1,24 +1,21 @@
-.userFav h3 {
-    margin-left: 20px;
-    color: indigo;
+.userFav {
+    padding-inline: 20%;
+    padding-block: 5%;
 }
 
-.favlocations {
-    padding: 5%;
+.favItem {
+    padding-inline: 2%;
+    padding-block: 1%;
+    background-color: #f1f1f1;
+    display: flex;
 }
 
-
-table.favloc-table {
-    width: 100%;
+.favItem div {
+    width: 60%;
+    margin-inline: 5%;
 }
 
-table.favloc-table th.columnName {
-    text-decoration: underline;
-    text-align: center;
-    line-height: 200%;
-}
-table.favloc-table td.Cell {
-    text-align: center;
-    line-height: 200%;
-    width: 15%
-}
+.favItem button {
+    width: 15%;
+    margin: 3%;
+    font-size: medium;
