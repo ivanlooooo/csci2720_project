@@ -1,32 +1,24 @@
-
-.LocCURD h3 {
+.userFav h3 {
     margin-left: 20px;
     color: indigo;
 }
 
-.findUser {
+.favlocations {
     padding: 5%;
 }
 
-.UserSearchBar {
-    width: 90%;
-    margin: 5%;
-    padding: 5px;
-}
 
-table.UserSearchResult {
+table.favloc-table {
     width: 100%;
 }
 
-table.UserSearchResult th.columnName {
+table.favloc-table th.columnName {
     text-decoration: underline;
     text-align: center;
     line-height: 200%;
 }
-table.UserSearchResult td.Cell {
+table.favloc-table td.Cell {
     text-align: center;
     line-height: 200%;
     width: 15%
 }
-
-/* table.UserSearchResult th */
