@@ -1,15 +1,12 @@
 const express = require('express');
 const app = express();
 var mongoose = require('mongoose');
+//mongoose.connect('');
+//const db = mongoose.connection;
 
-const cors = require('cors');
+db.on('error', console.error.bind(console, 'Connection error:'));
+
+const cors = require('cors'); 
 app.use(cors());
 
-
-app.use('/login', (req, res) => {
-  res.send({
-    token: 'test123'
-  });
-});
-
-const server = app.listen(8080);
+const server = app.listen(3000);
