@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Link, NavLink } from "react-router-dom";
-import { useEffect, useState, R } from "react";
+import { useEffect, useState } from "react";
 
 import '../CSS/User/UserPanel.css';
 
@@ -8,15 +8,16 @@ function UserPanel() {
     //Need set user name after back end build
     return (
         <div className="topnav">
-            <Link className="active" to="/User">Home</Link>
-            <Link to="/User/Search">Search</Link>
-            <Link to="/User/Favourite">Favourite</Link>
+            <NavLink to="/user" activeclassname="active" end>Home</NavLink>
+            <NavLink to="/User/Search" activeclassname="active">Search</NavLink>
+            <NavLink to="/User/Favourite" activeclassname="active">Favourite</NavLink>
             <div className="topnav-right">
-                <a >Hello user</a>
-                <Link to="/Login">Logout</Link>
+                <a className="disabled-link">Hello user</a>
+                <NavLink to="/login" activeclassname="active">Logout</NavLink>
             </div>
+
         </div>
     )
 }
 
-export default UserPanel
+export default UserPanel;

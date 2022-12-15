@@ -22,7 +22,6 @@ import Index from './Admin/userCRUD';
 class Router extends React.Component {
   render() {
     return (
-      <React.StrictMode>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Navigate to="/Login" />} />
@@ -40,7 +39,6 @@ class Router extends React.Component {
             <Route path="/Admin/UserCrud" element={<Index />} />
           </Routes>
         </BrowserRouter>
-      </React.StrictMode>
     );
   }
 

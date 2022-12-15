@@ -30,3 +30,7 @@ color: white;
 .topnav-right {
 float: right;
 }
+
+.disabled-link {
+  pointer-events: none;
+}
