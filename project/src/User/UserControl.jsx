@@ -8,13 +8,6 @@ import UserPanel from './UserPanel';
 import GoogleMap from './Map';
 
 function UserControl() {
-  const [token, setToken] = useState();
-
-  if(!token) {
-    return <Login setToken={setToken} />
-  }
-
-
   return (
     <div className='userHomePage'>
       <div className="featureSection">
