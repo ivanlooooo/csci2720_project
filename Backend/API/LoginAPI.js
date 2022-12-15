@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
-const UserInfo = require('./Scema/UserInfo.js');
+const UserInfo = require('../Schema/UserInfo.js');
 const bcrypt = require("bcrypt");
 
-Login = {
+LoginAPI = {
     verify:(name, pw) => new Promise (async(res,rej)=>{
         UserInfo.find({
             username: name
@@ -14,7 +14,7 @@ Login = {
                     rej("User is not founded");
                 else{
                     for (let ele of e) {
-                        let hashed = await bcrypt.hash(pw, ele.salt);
+                        let hashed = await bcrypt.hash(pw, ele.salt); //salt=seed
                         if (hashed === ele.password) { // rej if wrong
                             res(ele._id);
                         } else {
@@ -33,9 +33,9 @@ Login = {
             } else if (e === null)
                 rej("Error in \"checkr\" in checkRole() function");
             else
-                res('userlink' in e && e.userlink !== undefined ? "user" : "admin");
+                res( e.urole === "admin" ? "admin": "user");
         });
     })
 }
 
-module.exports = Login;
+module.exports = LoginAPI;

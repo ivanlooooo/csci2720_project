@@ -25,56 +25,62 @@ app.use(cors(
     credentials: true
 })));
 
-const Login = require('./VerifyLogin.js')
+const LoginAPI = require('./API/LoginAPI.js')
+const CommentAPI = require('./API/CommentAPI.js')
+const FavouriteAPI = require('./API/CommentAPI.js')
+const UsersAPI = require('./API/UserAPI.js')
+const LocationsAPI = require('./API/LocationAPI.js')
 
 db.once('open',  () =>{
-    console.log("Connection is open...");
+  console.log("Connection is open...");
 
-    const User = mongoose.model('UserInfo');
+  const User = mongoose.model('UserInfo');
 
-    app.post('/login', async(req, res) => {
-      let { username, password } = req.body;
+  //Verify username and password
+  app.post('/login', async(req, res) => {
+    let { username, password } = req.body;
       try{
-        let userId = await Login.verify(username, password)
-          if(userId)
+        let userId = await LoginAPI.verify(username, password)
+        if(userId)
           res.cookie('userId',userId, {
             httpOnly: true,
             signed: true,
             maxAge: 10 * 60 * 1000
-          }).send({ login: "true" });
+        }).send({ login: "true" });
       }catch (e) {
         console.log("err: " + e)
         res.send({ error: e })
       }
     })
 
-    app.post("/checkRole", async(req, res) => {
-      let usrId = req.signedCookies.usrId;
-      try {
-          let usrRole = await Login.checkRole(usrId);
-          if (usrRole)
-              res.cookie('usrId', usrId, {
-                  httpOnly: true,
-                  signed: true,
-                  maxAge: 10 * 60 * 1000
-              }).send({ role: usrRole })
-      } catch (e) {
-          console.log("err: " + e)
-          res.send({ error: e })
-      }
+  app.post("/checkRole", async(req, res) => {
+    let usrId = req.signedCookies.usrId;
+    try {
+        let usrRole = await LoginAPI.checkRole(usrId);
+        if (usrRole)
+          res.cookie('usrId', usrId, {
+            httpOnly: true,
+            signed: true,
+            maxAge: 10 * 60 * 1000
+          }).send({ role: usrRole })
+    } catch (e) {
+      onsole.log("err: " + e)
+      res.send({ error: e })
+    }
   })
+
+  //Option: Create / Read usercomments
   app.post("/userComments", async(req, res) => {
     let usrId = req.signedCookies.usrId;
     let { locationId, option, newComments } = req.body;
-
     try {
         switch (option) {
             case "create":
                 console.log(locationId, option, newComments)
-                if (await Users.createComments(usrId, locationId, newComments)) res.send({ result: "success" });
+                if (await CommentAPI.create(usrId, locationId, newComments)) res.send({ result: "success" });
                 break;
             case "read":
-                res.send(await Users.getComments(locationId));
+                res.send(await CommentAPI.read(locationId));
                 break;
             default:
                 res.status(404).send([])
@@ -83,8 +89,107 @@ db.once('open',  () =>{
         console.log("error: " + e)
         res.status(404).send({ error: e })
     }
+  })
 
-})
+   //Option: Create / Read user favourite
+  app.post("/userFav", async(req, res) => {
+      let usrId = req.signedCookies.usrId;
+      let { locationId, option } = req.body;
+
+      try {
+          switch (option) {
+              case "create":
+                  if (await FavouriteAPI.create(usrId, locationId)) res.send({ result: "success" });
+                  break;
+              case "delete":
+                  if (await FavouriteAPI.delete(usrId, locationId)) res.send({ result: "success" });
+                  break;
+              default:
+                  res.status(404).send([])
+          }
+      } catch (e) {
+          console.log("error: " + e)
+          res.status(404).send({ error: e })
+      }
+    })
+    //admin CURD: user
+      app.post("/userCredential", async(req, res) => {
+        let { userId, option, newCredential } = req.body;
+        let cookieUsrId = req.signedCookies.usrId;
+        try {
+          switch (option) {
+              case "create":
+                  if (await UsersAPI.create(newCredential)) res.send({ result: "success" }); 
+                  break;
+              case "read":
+                  res.send(await UsersAPI.read(userId)); 
+                  break;
+              case "readByCookie":
+                  res.send(await UsersAPI.read(cookieUsrId));
+                  break;
+              case "readAll":
+                  res.send(await UsersAPI.readAll()); // notes return roles too, check for no such id
+                  break;
+              case "update":
+                  if (await UsersAPI.update(userId, newCredential)) res.send({ result: "success" }); //note check same, check invalid input
+                  break;
+              case "delete":
+                  if (await UsersAPI.delete(userId)) res.send({ result: "success" }); //note cannot delete admin
+                  break;
+              default:
+                  res.status(404).send([])
+          }
+      } catch (e) {
+          console.log("error: " + e)
+          res.status(404).send({ error: e })
+      }
+
+      })
+        //admin CURD: locations
+      app.post("/locationManage", async(req, res) => {
+        let usrId = req.signedCookies.usrId;
+        let { locationId, option, newLocation } = req.body;
+
+        // rej error msg not object
+        try {
+            switch (option) {
+              case "reload":
+                await LocationsAPI.reloadData(); // note: no return for reload?
+                res.send(await Locations.getAll());
+                break;
+              case "create":
+                if (await LocationsAPI.create(newLocation))
+                  res.send({ result: "success" }); // note: return success or error? check big small letter?
+                break;
+              case "read":
+                res.send(await LocationsAPI.get(locationId));
+                break;
+              case "readAll":
+                res.send(await LocationsAPI.getAll());
+                break;
+              case "readFav":
+                res.send(await LocationsAPI.getFavourite(usrId)); // return all data, weature, latitude longtitude
+                break;
+              case "update": // note keep pop up location name cannot be changed, cannot change to existing location
+                if (await LocationsAPI.update(locationId, newLocation))
+                  res.send({ result: "success" }); // note: return success or error?
+                break;
+              case "delete":
+                if (await LocationsAPI.delete(locationId))
+                  res.send({ result: "success" }); // note: return success or error?
+                break;
+              default:
+                res.status(404).send([]);
+            }
+        } catch (e) {
+            console.log("error: " + e)
+            res.status(404).send({ error: e })
+        }
+    })
+
+    app.post("/clearCookie", (req, res) => {
+        res.clearCookie('usrId').end();
+    })
 
 })
 
