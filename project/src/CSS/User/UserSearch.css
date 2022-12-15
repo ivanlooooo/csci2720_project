@@ -31,17 +31,17 @@ table.searchResult {
         text-align: left;
         width: 25%
     }
-    table.searchResult th#NoOfEvents:hover {
+    table.searchResult th#NoOfEvents a:hover {
         cursor: pointer;
         user-select: none;
         font-weight: 800;
     }
-    table.searchResult th#MinTrafficSpeed:hover {
+    table.searchResult th#MinTrafficSpeed a:hover {
         cursor: pointer;
         user-select: none;
         font-weight: 800;
     }
-    table.searchResult th#MaxTrafficSpeed:hover {
+    table.searchResult th#MaxTrafficSpeed a:hover {
         cursor: pointer;
         user-select: none;
         font-weight: 800;
