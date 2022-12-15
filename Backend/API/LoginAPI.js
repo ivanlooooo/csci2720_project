@@ -5,9 +5,10 @@ const bcrypt = require("bcrypt");
 LoginAPI = {
     verify:(name, pw) => new Promise (async(res,rej)=>{
         UserInfo.find({
-            username: name
+            Username: name
         })
         .exec(async(err,e)=>{
+            console.log(name)
             if (err)
                     rej(err)
                 else if (e.length === 0)

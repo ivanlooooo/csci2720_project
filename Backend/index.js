@@ -19,11 +19,10 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection error:'));
 
 const cors = require('cors'); 
-app.use(cors(
-  cors({
-    origin: 'http://localhost:3000',
-    credentials: true
-})));
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
 
 const LoginAPI = require('./API/LoginAPI.js')
 const CommentAPI = require('./API/CommentAPI.js')
@@ -148,18 +147,14 @@ db.once('open',  () =>{
         //admin CURD: locations
       app.post("/locationManage", async(req, res) => {
         let usrId = req.signedCookies.usrId;
-        let { locationId, option, newLocation } = req.body;
+        let { locationId, option, locationName, longitude,latitude } = req.body;
 
         // rej error msg not object
         try {
             switch (option) {
-              case "reload":
-                await LocationsAPI.reloadData(); // note: no return for reload?
-                res.send(await Locations.getAll());
-                break;
               case "create":
-                if (await LocationsAPI.create(newLocation))
-                  res.send({ result: "success" }); // note: return success or error? check big small letter?
+                if (await LocationsAPI.create(locationId, locationName, longitude,latitude))
+                  res.send({ result: "success" });
                 break;
               case "read":
                 res.send(await LocationsAPI.get(locationId));
@@ -168,15 +163,15 @@ db.once('open',  () =>{
                 res.send(await LocationsAPI.getAll());
                 break;
               case "readFav":
-                res.send(await LocationsAPI.getFavourite(usrId)); // return all data, weature, latitude longtitude
+                res.send(await LocationsAPI.getFavourite(usrId)); 
                 break;
-              case "update": // note keep pop up location name cannot be changed, cannot change to existing location
-                if (await LocationsAPI.update(locationId, newLocation))
-                  res.send({ result: "success" }); // note: return success or error?
+              case "update": 
+                if (await LocationsAPI.update(locationId, locationName, longitude,latitude))
+                  res.send({ result: "success" }); 
                 break;
               case "delete":
                 if (await LocationsAPI.delete(locationId))
-                  res.send({ result: "success" }); // note: return success or error?
+                  res.send({ result: "success" });
                 break;
               default:
                 res.status(404).send([]);

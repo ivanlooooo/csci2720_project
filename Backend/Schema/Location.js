@@ -5,7 +5,7 @@ const LocationSchema = mongoose.Schema({
     name: { type: String, required: true },
     longitude: { type: Number },
     latitude: { type: Number },
-    Event: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Event' }]
+    locId: {type:Number, required:true}
 });
 const Location = mongoose.model('Location', LocationSchema);
 
