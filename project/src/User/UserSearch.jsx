@@ -6,25 +6,51 @@ import '../CSS/User/UserSearch.css';
 function UserSearch() {
 
     // sample data
-    let data = [
+    let raw_data = [
         { venue: "Happy School", location: "Sha Tin, New Territories", noOfEvents: 2, minTrafficSpeed: 20, maxTrafficSpeed: 70 },
         { venue: "Little Park", location: "Kwun Tong, Kowloon", noOfEvents: 5, minTrafficSpeed: 15, maxTrafficSpeed: 30 },
         { venue: "Big Library", location: "Causeway Bay, Hong Kong Island", noOfEvents: 3, minTrafficSpeed: 20, maxTrafficSpeed: 40 },
         { venue: "ABC Mall", location: "Admiralty, Hong Kong Island", noOfEvents: 0, minTrafficSpeed: 30, maxTrafficSpeed: 80 },
         { venue: "ABC Centre", location: "Sham Shui Po, Kowloon", noOfEvents: 1, minTrafficSpeed: 25, maxTrafficSpeed: 80 },
     ]
-
-    const [searchInput, setSearchInput] = useState("");
+    
+    const [data, setdata] = useState(raw_data);
+    const [sortByNo, setSortByNo] = useState(false);
+    const [sortByMax, setSortByMax] = useState(false);
+    const [sortByMin, setSortByMin] = useState(false);
 
     const handleChange = (event) => {
-        setSearchInput(event.target.value);
+        setdata(
+            raw_data.filter((key) => (key.venue.match(event.target.value) || key.location.match(event.target.value)))
+        )
     };
 
-    if (searchInput.length > 0) {
-        data = data.filter((key) => {
-            return (key.venue.match(searchInput) || key.location.match(searchInput));
-        });
-    }
+    const handleClickNo = (event) => {
+        setSortByNo(!sortByNo);
+        if (sortByNo) {
+            setdata(data.sort((a, b) => a.noOfEvents > b.noOfEvents ? 1 : -1))
+        } else {
+            setdata(data.sort((a, b) => a.noOfEvents < b.noOfEvents ? 1 : -1))
+        }
+    };
+
+    const handleClickMin = (event) => {
+        setSortByMin(!sortByMin);
+        if (sortByMin) {
+            setdata(data.sort((a, b) => a.minTrafficSpeed > b.minTrafficSpeed ? 1 : -1))
+        } else {
+            setdata(data.sort((a, b) => a.minTrafficSpeed < b.minTrafficSpeed ? 1 : -1))
+        }
+    };
+
+    const handleClickMax = (event) => {
+        setSortByMax(!sortByMax);
+        if (sortByMax) {
+            setdata(data.sort((a, b) => a.maxTrafficSpeed > b.maxTrafficSpeed ? 1 : -1))
+        } else {
+            setdata(data.sort((a, b) => a.maxTrafficSpeed < b.maxTrafficSpeed ? 1 : -1))
+        }
+    };
 
     return (
         <div>
@@ -34,16 +60,15 @@ function UserSearch() {
                     type="search"
                     className="searchBar"
                     placeholder="Search Venue here"
-                    onChange={handleChange}
-                    value={searchInput}>
+                    onChange={handleChange}>
                 </input>
                 <table className="searchResult">
                     <tr>
                         <th className="columnName" id="Venue">Venue</th>
                         <th className="columnName" id="Location">Location</th>
-                        <th className="ColumnName" id="NoOfEvents">No of Events</th>
-                        <th className="ColumnName" id="MinTrafficSpeed">Min Traffic Speed</th>
-                        <th className="ColumnName" id="MaxTrafficSpeed">Max Traffic Speed</th>
+                        <th className="ColumnName" id="NoOfEvents" onClick={handleClickNo}>No of Events {sortByNo?'↑':'↓'}</th>
+                        <th className="ColumnName" id="MinTrafficSpeed" onClick={handleClickMin}>Min Traffic Speed {sortByMin?'↑':'↓'}</th>
+                        <th className="ColumnName" id="MaxTrafficSpeed" onClick={handleClickMax}>Max Traffic Speed {sortByMax?'↑':'↓'}</th>
                     </tr>
                     {data.map((key) => {
                         return (
