@@ -1,0 +1,30 @@
+body {
+    background-color: cornsilk;
+}
+
+.logInPage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+}
+
+.logInPage h5 {
+    color: indigo;
+}
+
+.logInPage .loginBox {
+    margin: 15px;
+}
+
+.logInPage .loginBox input {
+    margin: 15px;
+}
+
+.logInPage .loginBox .loginbtn {
+    padding: 15px;
+    background-color: lightblue;
+    border-radius: 5px;
+}
