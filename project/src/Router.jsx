@@ -13,6 +13,7 @@ import SingleLocation from './User/eachLoc';
 
 import AdminControl from './Admin/AdminControl';
 import UserCRUD from './Admin/user';
+import LocCRUD from './Admin/locationCRUD';
 
 class Router extends React.Component {
   render() {
@@ -28,6 +29,7 @@ class Router extends React.Component {
 
             <Route path="/Admin" element={<AdminControl />} />
             <Route path="/Admin/userCRUD" element={<UserCRUD />} />
+            <Route path="/Admin/crud" element={<LocCRUD />} />
           </Routes>
         </BrowserRouter>
 
