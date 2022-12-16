@@ -1,10 +1,57 @@
 const Event = require('../Schema/Event.js')
 const Location = require('../Schema/Location.js')
-const fetch = require("node-fetch");
-const convert = require('xml-js');
 
 Events = {
-    create: () => "test_create",
+    create: new_info => {
+        let createEvent = new_info => new Promise((res, rej) => {
+            Event.create({
+                eventid: new_info.eventId,
+                title: new_info.event_title,
+                location: new_info.locationId,
+                time: new_info.event_date,
+                description: new_info.event_description,
+                presenter: new_info.event_presenter,
+                price: new_info.event_price,
+            }, (err, e) => err ? rej(err) : res(`new event ${e} created`))
+        })
+
+        let mapLocId = new_info => new Promise((res, rej) => {
+            Location.find()
+                .where('locId').in(new_info.locationId)
+                .exec((err, e) => {
+                    if (err) rej("error: " + err);
+                    else {
+                        new_info.locationId = e.map(ele => ele._id)
+                        res(new_info);
+                    }
+                });
+        })
+
+        return mapLocId(new_info)
+            .then(res => createEvent(res))
+    },
+
+    read_all: () => new Promise((res, rej) => {
+        Event.find()
+            .populate('location')
+            .exec((err, e) => {
+                if (err) rej("error: " + err);
+                else {
+                    event_list = e.map(ele => {
+                        return {
+                            eventid: ele.eventid,
+                            title: ele.title,
+                            venue: ele.location.map(loc => loc.name),
+                            time: ele.time,
+                            description: ele.description,
+                            presenter: ele.presenter,
+                            price: ele.price
+                        }
+                    })
+                    res(event_list);
+                }
+            })
+    }),
 
     read: eventId => new Promise((res, rej) => {
         Event.findOne({ eventid: eventId })
@@ -61,7 +108,7 @@ Events = {
                     else {
                         e.title = new_info.event_title
                         e.location = new_info.locationId
-                        e.time = new_info.event_date
+                        e.time = new_info.event_time
                         e.description = new_info.event_description
                         e.presenter = new_info.event_presenter
                         e.price = new_info.event_price
@@ -76,7 +123,7 @@ Events = {
                     eventId: new_info.eventId ? new_info.eventId : res.eventId,
                     event_title: new_info.event_title ? new_info.event_title : res.title,
                     locationId: new_info.locationId ? new_info.locationId : res.venue,
-                    event_date: new_info.event_time ? new_info.event_time : res.time,
+                    event_time: new_info.event_time ? new_info.event_time : res.time,
                     event_description: new_info.event_description ? new_info.event_description : res.description,
                     event_presenter: new_info.event_presenter ? new_info.event_presenter : res.presenter,
                     event_price: new_info.event_price ? new_info.event_price : res.price
@@ -88,31 +135,6 @@ Events = {
 
     },
 
-    read_all: () => {
-        let EventData = () => new Promise((res, rej) => {
-            Event.find()
-                .populate('location')
-                .exec((err, e) => {
-                    if (err) rej("error: " + err);
-                    else {
-                        event_list = e.map(ele => {
-                            return {
-                                eventid: ele.eventid,
-                                title: ele.title,
-                                venue: ele.location.map(loc => loc.name),
-                                time: ele.time,
-                                description: ele.description,
-                                presenter: ele.presenter,
-                                price: ele.price
-                            }
-                        })
-                        res(event_list);
-                    }
-                })
-        });
-
-        return EventData()
-    },
 
     delete_all: () => new Promise((res, rej) => {
         Event.find()
@@ -129,7 +151,7 @@ Events = {
             .exec((err, e) => {
                 if (err) rej("error: " + err);
                 else if (e.deletedCount === 0) rej("cannot find event id: " + req.params.eventId);
-                else res(`event ${e.eventid} deleted`);
+                else res(`event deleted`);
             })
     }),
 }

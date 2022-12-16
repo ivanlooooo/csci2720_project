@@ -29,6 +29,9 @@ const FavouriteAPI = require('./API/FavoruiteAPI.js')
 const UsersAPI = require('./API/UserAPI.js')
 const LocationsAPI = require('./API/LocationAPI.js')
 
+const fetch = require("node-fetch");
+const convert = require('xml-js');
+
 
 const Events = require('./API/Event.js')
 
@@ -186,9 +189,43 @@ db.once('open', () => {
 
   // event api
   // app.post("/refresh_events", async (req, res) => {
-  //   r = await Events.refresh()
-  //   console.log(r)
-  //   // res.send(await Events.refresh());
+  //   //get API
+  //   let url_response = await fetch("https://www.lcsd.gov.hk/datagovhk/event/events.xml");
+  //   let data = await url_response.text();
+  //   let result = convert.xml2json(data, { compact: true, spaces: 4 });
+  //   let output = JSON.parse(result);
+  //   let list = output.events.event;
+
+  //   console.log(list)
+
+  //   // //delete records
+  //   // //db.Event.remove({});
+
+  //   // //get location list 
+
+  //   //formatting & filtering
+  //   let newlist = '[';
+  //   list.forEach(element => {
+  //     var newStr1 = element.titlee._cdata?.replace('"', "'");
+  //     var newStr2 = element.desce._cdata?.replace('"', "'");
+  //     if (element.venueid._cdata == "50110014" || element.venueid._cdata == "3110031" ||
+  //       element.venueid._cdata == "87810042" || element.venueid._cdata == "36310035" ||
+  //       element.venueid._cdata == "50110014" || element.venueid._cdata == "87510008" ||
+  //       element.venueid._cdata == "75010017" || element.venueid._cdata == "76810048" ||
+  //       element.venueid._cdata == "87210045" || element.venueid._cdata == "87310051") {
+  //       newlist = newlist + '{ "eventid": ' + element._attributes.id + ', "title":"' +
+  //         newStr1 + '", "time": "' + element.predateE._cdata + '", "description": "' +
+  //         newStr2 + '", "presenter": "' + element.presenterorge._cdata + '", "price": "' +
+  //         element.pricee._cdata + '", "location": ' + element.venueid._cdata + '},';
+  //     }
+  //   });
+  //   let newlist1 = newlist.slice(0, -1);
+  //   newlist1 = newlist1 + ']';
+
+  //   //update db
+  //   Event.insertMany({ eventid: "145072", title: "Cantonese Operatic Songs Concert", time: "1 Jan 2023 (Sun) 2:00pm", description: "undefined", presenter: "Presented by Jerry Music Art", price: "Free admission by tickets", location: "3110031" }, function (err) {
+  //     console.log(err);
+  //   });
   // })
 
   app.post("/getallevent", async (req, res) => {
@@ -196,7 +233,21 @@ db.once('open', () => {
   })
 
   app.post("/newevent", async (req, res) => {
-    res.send(await Events.create());
+    let { eventId, event_title, locationId, event_time, event_description, event_presenter, event_price } = req.body;
+    if (!eventId) res.send("error: must require eventId")
+    if (!typeof (locationId)) res.send("error: locationId has to be object array of loaction ids")
+
+    new_info = {
+      eventId: eventId,
+      event_title: event_title,
+      locationId: locationId,
+      event_time: event_time,
+      event_description: event_description,
+      event_presenter: event_presenter,
+      event_price: event_price
+    }
+
+    res.send(await Events.create(new_info));
   })
 
   app.post("/getevent", async (req, res) => {
