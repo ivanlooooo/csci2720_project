@@ -15,8 +15,25 @@ UsersAPI = {
             result.salt = salt;
             result.hash_password = hash_password;
             res(result);
-            console.log(result)
         });
+        let createFav = (result,favouriteLoc) => new Promise(async(res, rej) => {
+            Favourite.create({
+                locations: favouriteLoc,
+            }, (err, e) => {
+                if(err) {
+                    rej(err);
+                    return;
+                }
+                else if( e!== null) {
+                    result._id =e._id;
+                    return;
+                }
+                else {
+                    res(result);
+                    return;
+                }
+            })
+        })
         let CreateUser= (newUsername,result)=> new Promise(async(res, rej) => {
                 UserInfo.findOne({Username: newUsername})
                 .exec((err,e)=>{
@@ -45,9 +62,8 @@ UsersAPI = {
     },
 
     //Generate All user list
-    read: async(newUsername)=>new Promise((res, rej) => {
-        console.log(newUsername)
-        UserInfo.findOne({ Username: newUsername})
+    read: async=>new Promise((res, rej) => {
+        UserInfo.findOne({_id: mongoose.Types.ObjectId(String(usrId))})
         .exec(async(error, result) => {
             if (error){
                 rej(error)
@@ -67,14 +83,15 @@ UsersAPI = {
 
     readAll : async =>new Promise((res, rej) => {
         UserInfo.find()
-        .exec((err,e)=>{
+        .exec(async(error, results) => {
             const userList=[]
-            if(err){
+            if(error){
                 rej(err);
                 return;
-            }else if (e.length >0){
-                for (let ele of e){
+            }else if (results.length >0){
+                for (let ele in results){
                     const user={};
+                    user._id = String(result._id);
                     user.Username = ele.Username;
                     user.Password = ele.Password;
                     user.role = ele.role
@@ -82,15 +99,14 @@ UsersAPI = {
                 }
             }
             res(userList);
-            return;
         })
     }),
-    update : async(newUsername,newPassword ) =>{
+    update : async(userId,  newUsername,newPassword ) =>{
         if(newUsername === "" || newUsername=== null || newPassword === "" || newPassword=== null){
             rej("User name or password cannot be empty");
             return;
         }
-        UserInfo.findOne({Username: newUsername})
+        UserInfo.findOne({_id: mongoose.Types.ObjectId(String(userId))})
         .exec(async(error, result) => {
             if(error){
                 rej(error);
@@ -109,28 +125,14 @@ UsersAPI = {
         })
 
     },
-    delete : async(newUsername) =>new Promise((res, rej) => {
-        UserInfo.deleteOne({Username: newUsername})
-        .exec((err, e) => {
-            if(err){
-                rej(err);
-                return;
-            }else {
-                res(e);
-                return;
-            }
-        });
-    })
-    /*
-    delete : async(newUsername) =>{
-        let checkRole = (newUsername) =>new Promise((res, rej) => {
-            UserInfo.findOne({Username: newUsername}).exec(async(error, result) => {
+    delete : async(userId) =>{
+        let checkRole = (userId) =>new Promise((res, rej) => {
+            UserInfo.findOne({_id: mongoose.Types.ObjectId(String(userId))}).exec(async(error, result) => {
                 result.role === "admin"? rej("Admin cannot be deleted"):res();
             })
         })
-        
-        let findFavId = (newUsername) => new Promise((res, rej) => {
-            UserInfo.findOne({ Username: newUsername})
+        let findFavId = (userId) => new Promise((res, rej) => {
+            UserInfo.findOne({ _id: mongoose.Types.ObjectId(String(userId))})
             .populate('favourite')
             .exec((error, e) => {
                 if(error){
@@ -145,8 +147,8 @@ UsersAPI = {
                 }
             });
         });
-        let deleteFavourite =(newUsername)=> new Promise((res, rej) => {
-            Favourite.deleteOne({Username: newUsername})
+        let deleteFavourite =(favouritelistId)=> new Promise((res, rej) => {
+            Favourite.deleteOne({_id: mongoose.Types.ObjectId(String(favouritelistId)) })
             .exec((err, e) => {
                 if(error){
                     rej(error);
@@ -161,7 +163,7 @@ UsersAPI = {
             });
         });
 
-        let deleteComment = (newUsername) => new Promise((res, rej) => {
+        let deleteComment = (userId) => new Promise((res, rej) => {
             Comment.deleteMany({User: mongoose.Types.ObjectId(String(userId))})
             .exec((err, e) => {
                 if(error){
@@ -187,15 +189,14 @@ UsersAPI = {
             });
         });
 
-        return checkRole(newUsername)
-        .then(()=>findFavId(newUsername))
-        .then((result)=>deleteFavourite(newUsername))
-        .then(()=>deleteComment(newUsername))
-        .then(()=>delUser(newUsername))
+        return checkRole(userId)
+        .then(()=>findFavId(userId))
+        .then((result)=>deleteFavourite(userId))
+        .then(()=>deleteComment(userId))
+        .then(()=>delUser(userId))
         .then((e)=> console.log(e))
         .catch(err =>console.log(err));
     }
-    */
 }
 
 module.exports = UsersAPI;

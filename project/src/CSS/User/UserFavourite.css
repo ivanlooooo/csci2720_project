@@ -1,0 +1,22 @@
+.userFav {
+    padding-inline: 20%;
+    padding-block: 5%;
+}
+
+.favItem {
+    padding-inline: 2%;
+    padding-block: 1%;
+    background-color: #f1f1f1;
+    display: flex;
+}
+
+.favItem div {
+    width: 60%;
+    margin-inline: 5%;
+}
+
+.favItem button {
+    width: 15%;
+    margin: 3%;
+    font-size: medium;
+}

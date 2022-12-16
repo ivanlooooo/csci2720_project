@@ -57,7 +57,6 @@ db.once('open',  () =>{
     try {
         switch (option) {
             case "create":
-                console.log(locationId, option, newComments)
                 if (await CommentAPI.create(usrId, locationId, newComments)) res.send({ result: "success" });
                 break;
             case "read":
@@ -95,12 +94,12 @@ db.once('open',  () =>{
     })
     //admin CURD: user
       app.post("/userManage", async(req, res) => {
-        let { userId, option, newCredential } = req.body;
+        let { userId, option, newUsername,newPassword,favourite } = req.body;
         let cookieUsrId = req.signedCookies.usrId;
         try {
           switch (option) {
               case "create":
-                  if (await UsersAPI.create(newUsername,newPassword,role)) res.send({ result: "success" }); 
+                  if (await UsersAPI.create(newUsername,newPassword,favourite )) res.send({ result: "success" }); 
                   break;
               case "read":
                   res.send(await UsersAPI.read(userId)); 
@@ -112,7 +111,7 @@ db.once('open',  () =>{
                   res.send(await UsersAPI.readAll()); // notes return roles too, check for no such id
                   break;
               case "update":
-                  if (await UsersAPI.update(userId, newCredential)) res.send({ result: "success" }); //note check same, check invalid input
+                  if (await UsersAPI.update(userId,  newUsername,newPassword )) res.send({ result: "success" }); //note check same, check invalid input
                   break;
               case "delete":
                   if (await UsersAPI.delete(userId)) res.send({ result: "success" }); //note cannot delete admin
