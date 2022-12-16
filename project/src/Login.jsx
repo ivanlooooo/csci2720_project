@@ -2,32 +2,46 @@ import { useState, useEffect } from 'react';
 import { Navigate } from "react-router-dom";
 import './CSS/login.css';
 
+import AdminControl from './Admin/AdminControl';
+import UserControl from './User/UserControl';
+
 function Login(){
-    let [role, setRole] = useState(null);
-    let [login, setlogIn] = useState(null);
+    let [loginStatus, setlogIn] = useState(null);
+    let [role,setRole] = useState(null);
 
     let logInPage= e =>{
         e.preventDefault();
-        let username = e.target.username.value
-        let password = e.target.password.value
-        console.log(username)
-        console.log(password)
-        if (username === "admin" & password === "admin"){
-            setRole("admin");
-            console.log('success')
-        }
+        fetch(process.env.REACT_APP_SERVER_URL + "/login", {
+            method: "POST",
+            credentials: "include",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                username: e.target.username.value,
+                password: e.target.password.value
+            })
+        })
+            .then(res => res.json())
+            .then(res => {
+                setlogIn(res.login)
+                setRole(res.role)
+                console.log(res.login)
+                console.log(res.role)
+                console.log(typeof(loginStatus))
+                console.log(loginStatus)
+                console.log(role)
+            })
+            .catch(err => console.log("error: " + err));
+        e.target.reset();
     }
 
     return(
         <div className='logInPage'>
-            <header>
-                <h5>Log in page- CSCI2720 Project</h5>
-            </header>
+            {(loginStatus && role==="admin") && <AdminControl />}
+            {(loginStatus && role==="User") && <UserControl />}
             <main>
-                {
-                    Login=="false" && 
-                    <div>Login Failure. Plz ensure username and account correct.</div>
-                }
+                <header>
+                    <h5>Log in page- CSCI2720 Project</h5>
+                </header>
                 <div className='loginBox'>
                     <form onSubmit={logInPage}>
                         <label htmlFor="username">Username:</label>

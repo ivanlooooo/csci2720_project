@@ -40,34 +40,15 @@ db.once('open',  () =>{
   app.post('/login', async(req, res) => {
     let { username, password } = req.body;
       try{
-        let userId = await LoginAPI.verify(username, password)
-        if(userId)
-          res.cookie('userId',userId, {
-            httpOnly: true,
-            signed: true,
-            maxAge: 10 * 60 * 1000
-        }).send({ login: "true" });
+        let result = await LoginAPI.verify(username, password)
+        console.log(result)
+        if(result)
+          res.send(result);
       }catch (e) {
         console.log("err: " + e)
         res.send({ error: e })
       }
     })
-
-  app.post("/checkRole", async(req, res) => {
-    let usrId = req.signedCookies.usrId;
-    try {
-        let usrRole = await LoginAPI.checkRole(usrId);
-        if (usrRole)
-          res.cookie('usrId', usrId, {
-            httpOnly: true,
-            signed: true,
-            maxAge: 10 * 60 * 1000
-          }).send({ role: usrRole })
-    } catch (e) {
-      onsole.log("err: " + e)
-      res.send({ error: e })
-    }
-  })
 
   //Option: Create / Read usercomments
   app.post("/userComments", async(req, res) => {
@@ -99,10 +80,10 @@ db.once('open',  () =>{
       try {
           switch (option) {
               case "create":
-                  if (await FavouriteAPI.create(usrId, locationId)) res.send({ result: "success" });
+                  if (await FavouriteAPI.create(username, locationId)) res.send({ result: "success" });
                   break;
               case "delete":
-                  if (await FavouriteAPI.delete(usrId, locationId)) res.send({ result: "success" });
+                  if (await FavouriteAPI.delete(username, locationId)) res.send({ result: "success" });
                   break;
               default:
                   res.status(404).send([])
@@ -119,7 +100,7 @@ db.once('open',  () =>{
         try {
           switch (option) {
               case "create":
-                  if (await UsersAPI.create(newCredential)) res.send({ result: "success" }); 
+                  if (await UsersAPI.create(newUsername,newPassword,role)) res.send({ result: "success" }); 
                   break;
               case "read":
                   res.send(await UsersAPI.read(userId)); 
