@@ -93,12 +93,12 @@ db.once('open',  () =>{
     })
     //admin CURD: user
       app.post("/userManage", async(req, res) => {
-        let { userId, option, newUsername,newPassword,favourite } = req.body;
+        let { userId, option, newUsername,newPassword,role} = req.body;
         let cookieUsrId = req.signedCookies.usrId;
         try {
           switch (option) {
               case "create":
-                  if (await UsersAPI.create(newUsername,newPassword,favourite )) res.send({ result: "success" }); 
+                  if (await UsersAPI.create(newUsername,newPassword,role )) res.send({ result: "success" }); 
                   break;
               case "read":
                   res.send(await UsersAPI.read(userId)); 

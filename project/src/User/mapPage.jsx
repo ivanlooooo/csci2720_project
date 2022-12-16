@@ -34,14 +34,14 @@ function MapContent(props){
         <section id='userMap'>
             <div className='row'>
                     <div className='col'>
-                        <CombineMap />
-                    </div>
-            </div>
-            <div className='row'>
-                    <div className='col'>
                         <h1>Map</h1>
                     </div>
                 </div>
+            <div className='row'>
+                    <div className='col'>
+                        <CombineMap />
+                    </div>
+            </div>
 
         </section>
     )

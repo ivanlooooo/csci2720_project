@@ -9,6 +9,7 @@ import Login from './Login';
 import UserControl from './User/UserControl';
 import UserFav from './User/UserFavourite';
 import UserSearch from './User/UserSearch';
+import SingleLocation from './User/eachLoc';
 
 import AdminControl from './Admin/AdminControl';
 import UserCRUD from './Admin/user';
@@ -23,6 +24,8 @@ class Router extends React.Component {
             <Route path="/User" element={<UserControl />} />
             <Route path="/User/Search" element={<UserSearch />} />
             <Route path="/User/Favourite" element={<UserFav />} />
+            <Route path="/location" element={<SingleLocation  />} />
+
             <Route path="/Admin" element={<AdminControl />} />
             <Route path="/Admin/userCRUD" element={<UserCRUD />} />
           </Routes>
