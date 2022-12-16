@@ -4,7 +4,7 @@
 
 import { useNavigate, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-//import '../css/admin/location.css';
+import '../CSS/Admin/location.css';
 
 
 function Locations(){
