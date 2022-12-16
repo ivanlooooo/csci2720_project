@@ -97,7 +97,7 @@ function Content(props){
             </div>
             <div className='col'>
                 <h3>Event Detail</h3>
-                <table className="location-table">
+                <table className="event-table">
                     <thead>
                         <tr className="first-row">
                             <th>Title</th>
@@ -119,6 +119,36 @@ function Content(props){
                         </tbody>
                     </thead>
                 </table>
+            </div>
+        </div>
+        <div className='row'>
+            <div className='col'>
+                <h3>Comments</h3>
+                <table className="comment-table">
+                    <thead>
+                        <tr className="first-row">
+                                    <th>Name</th>
+                                    <th>Comment</th>
+                        </tr>
+                        <tbody>
+                                {props.comment!=null && props.comment.map((ele,i) => 
+                                    <tr key={i}>
+                                        <td>{ele.name}</td>
+                                        <td>{ele.comment}</td>
+                                    </tr>
+                                )}
+                        </tbody>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div className='row'>
+            <div className='col'>
+                <h3>Leave a comment </h3>
+                <form className="comment-form" onSubmit={props.submitComment}>
+                            <textarea row="5" name="comment" type="text" placeholder="Enter your comment"></textarea>
+                            <input type="submit" value="submit"/><br/><br/>
+                </form>
             </div>
         </div>
     </section>

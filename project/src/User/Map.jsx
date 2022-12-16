@@ -33,18 +33,16 @@ function BasicMap(props) {
                     center={{lat: props.position.latitude, lng: props.position.longitude}}
                     yesIWantToUseGoogleMapApiInternals
                     onGoogleApiLoaded={({ map, maps }) => apiHasLoaded(map, maps)}
-                >
-                  {console.log('testing')}
-               {props?.position!==null &&
-                        <MeseumMarker
-                        icon={require('../image/museum.png')}
-                        lat={props.position.latitude}
-                        lng={props.position.longitude}
-                        text={props.position.text}
-                        placeId={props.position.locId}
-                        />
-                }
-                
+                > 
+                        {props?.position!==null &&
+                                    <MeseumMarker
+                                    icon={require('../image/museum.png')}
+                                    lat={props.position.latitude}
+                                    lng={props.position.longitude}
+                                    text={props.position.text}
+                                    placeId={props.position.locId}
+                                    />
+                            }
                 </GoogleMapReact>
             </div>
         </section>

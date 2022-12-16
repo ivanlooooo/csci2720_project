@@ -41,11 +41,13 @@ db.once('open', () => {
   app.post('/login', async (req, res) => {
     let { username, password } = req.body;
     try {
-      console.log("connect")
-      let result = await LoginAPI.verify(username, password)
-      console.log(result)
-      if (result)
-        res.send(result);
+      let usrId = await LoginAPI.verify(username, password)
+      if (usrId)
+        res.cookie('usrId', usrId, {
+          httpOnly: true,
+          signed: true,
+          maxAge: 10 * 60 * 1000
+        }).send(usrId);
     } catch (e) {
       console.log("err: " + e)
       res.send({ error: e })
@@ -57,12 +59,29 @@ db.once('open', () => {
     let usrId = req.signedCookies.usrId;
     let { locationId, option, newComments } = req.body;
     try {
+      console.log("connect")
+      let result = await LoginAPI.verify(username, password)
+      console.log(result)
+      if (result)
+        res.send(result);
+    } catch (e) {
+      console.log("err: " + e)
+      res.send({ error: e })
+    }
+  })
+
+  //Option: Create / Read user favourite
+  app.post("/userFav", async (req, res) => {
+    let usrId = req.signedCookies.usrId;
+    let { locationId, option } = req.body;
+
+    try {
       switch (option) {
         case "create":
-          if (await CommentAPI.create(usrId, locationId, newComments)) res.send({ result: "success" });
+          if (await FavouriteAPI.create(usrId, locationId)) res.send({ result: "success" });
           break;
-        case "read":
-          res.send(await CommentAPI.read(locationId));
+        case "delete":
+          if (await FavouriteAPI.delete(usrId, locationId)) res.send({ result: "success" });
           break;
         default:
           res.status(404).send([])
@@ -130,7 +149,7 @@ db.once('open', () => {
   //admin CURD: locations
   app.post("/locationManage", async (req, res) => {
     let usrId = req.signedCookies.usrId;
-    let { locationId, option, newName, newLongitude, newLatitude, userId } = req.body;
+    let { locationId, option, newName, newLongitude, newLatitude } = req.body;
 
     // rej error msg not object
     try {
@@ -146,7 +165,7 @@ db.once('open', () => {
           res.send(await LocationsAPI.getAll());
           break;
         case "readFav":
-          res.send(await LocationsAPI.getFavourite(userId)); // return all data, weature, latitude longtitude
+          res.send(await LocationsAPI.getFavourite(usrId)); // return all data, weature, latitude longtitude
           break;
         case "update": // note keep pop up location name cannot be changed, cannot change to existing location
           if (await LocationsAPI.update(locationId, newName, newLongitude, newLatitude))

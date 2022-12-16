@@ -86,13 +86,14 @@ UsersAPI = {
             return;
         })
     }),
-    update : async(newUsername,newPassword ) =>{
+    update : async(id, newUsername,newPassword ) =>new Promise((res, rej) =>{
         if(newUsername === "" || newUsername=== null || newPassword === "" || newPassword=== null){
             rej("User name or password cannot be empty");
             return;
         }
-        UserInfo.findOne({Username: newUsername})
+        UserInfo.findOne({_id: mongoose.Types.ObjectId(String(id))})
         .exec(async(error, result) => {
+            console.log(result)
             if(error){
                 rej(error);
                 return;
@@ -100,18 +101,18 @@ UsersAPI = {
                 rej("User Id not found")
             } else {
                 salt = result.salt;
-                const hash_password = await bcrypt.hash(newCredential.password, salt);
+                const hash_password = await bcrypt.hash(newPassword, salt);
                 result.Username = newUsername;
-                user.Password = newPassword;
+                result.Password = hash_password;
                 result. save()
                     .then(result=>{res(result)})
                     .catch(err=> rej(err))
             }
         })
 
-    },
-    delete : async(newUsername) =>new Promise((res, rej) => {
-        UserInfo.deleteOne({Username: newUsername})
+    }),
+    delete : async(userId) =>new Promise((res, rej) => {
+        UserInfo.deleteOne({_id: mongoose.Types.ObjectId(String(userId))})
         .exec((err, e) => {
             if(err){
                 rej(err);
