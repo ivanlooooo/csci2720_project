@@ -2,6 +2,8 @@ import { useNavigate, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import CombineMap from "./CombineMap";
 
+import BasicMap from "./Map"
+
 function MapSetup(){
     let navigate = useNavigate();
     let [locations, setLocations] = useState(null)

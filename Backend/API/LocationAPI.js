@@ -34,9 +34,9 @@ Locations = {
         Location.findOne({locId: id})
         .exec((err, e) => {
             if (err)
-            res.status(404).send("Error:" + err);
+            res("Error:" + err);
             else if (e === null)
-            res.status(404).send(`{"error":"cannot find location}`)
+            res(`{"error":"cannot find location}`)
             else{
             const loc={};
             loc.name = e.name;

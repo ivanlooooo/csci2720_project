@@ -8,6 +8,8 @@ function UserSearch() {
     let navigate = useNavigate();
     let [locations, setLocations] = useState(null)
 
+    let visitLoc = id => navigate("../location?id="+id);
+
     useEffect(()=>{
         fetch(process.env.REACT_APP_SERVER_URL+"/locationManage",{
           method:"POST",
@@ -17,6 +19,7 @@ function UserSearch() {
           }).then(response=>response.json())
           .then(res => {
             res.error? alert(res.error):setLocations(res.locList)
+            console.log(res)
             return(res)
         })
         .then(res=>{
@@ -64,7 +67,7 @@ function UserSearch() {
                                 <td className="Cell" id="Lon">{key.latitude}</td>
                                 <td className="Cell" id="Loc ID">{key.locId}</td>
                                 <td className="Cell" id="eventCount">Later add back</td>
-                                <td><button type="button">Visit</button></td>
+                                <td><button type="button" onClick={() => visitLoc(key.locId)}>Visit</button></td>
                                 <td><button type="button">Add Fav</button></td>
                             </tr>
                         );
