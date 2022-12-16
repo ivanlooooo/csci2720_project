@@ -38,15 +38,13 @@ db.once('open',  () =>{
   app.post('/login', async(req, res) => {
     let { username, password } = req.body;
       try{
-        let result = await LoginAPI.verify(username, password)
-        if(result)
-          res.send();
-        if (result)
+        let usrId= await LoginAPI.verify(username, password)
+        if (usrId)
           res.cookie('usrId', usrId, {
               httpOnly: true,
               signed: true,
               maxAge: 10 * 60 * 1000
-          }).send(result);
+          }).send(usrId);
       }catch (e) {
         console.log("err: " + e)
         res.send({ error: e })
