@@ -75,6 +75,7 @@ UsersAPI = {
             }else if (e.length >0){
                 for (let ele of e){
                     const user={};
+                    user._id= ele._id
                     user.Username = ele.Username;
                     user.Password = ele.Password;
                     user.role = ele.role
