@@ -4,13 +4,14 @@ import './CSS/login.css';
 
 import AdminControl from './Admin/AdminControl';
 import UserControl from './User/UserControl';
-
+import { redirect } from "react-router-dom";
 function Login(){
     let [loginStatus, setlogIn] = useState(null);
     let [role,setRole] = useState(null);
 
     let logInPage= e =>{
         e.preventDefault();
+        
         fetch(process.env.REACT_APP_SERVER_URL + "/login", {
             method: "POST",
             credentials: "include",
@@ -31,8 +32,8 @@ function Login(){
 
     return(
         <div className='logInPage'>
-            {(loginStatus && role==="User") && <UserControl />}
-            {(loginStatus && role==="admin") && <AdminControl />}
+            {(loginStatus && role==="User") && <Navigate  to="/user" replace={true} />}
+            {(loginStatus && role==="admin") && <Navigate  to="/admin" replace={true} /> }
             <main>
                 <header>
                     <h5>Log in page- CSCI2720 Project</h5>
