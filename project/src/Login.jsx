@@ -24,11 +24,8 @@ function Login(){
             .then(res => {
                 setlogIn(res.login)
                 setRole(res.role)
-                console.log(res.login)
-                console.log(res.role)
-                console.log(typeof(loginStatus))
-                console.log(loginStatus)
                 console.log(role)
+                console.log(loginStatus)
             })
             .catch(err => console.log("error: " + err));
         e.target.reset();
@@ -36,8 +33,8 @@ function Login(){
 
     return(
         <div className='logInPage'>
-            {(loginStatus && role==="admin") && <AdminControl />}
             {(loginStatus && role==="User") && <UserControl />}
+            {(loginStatus && role==="admin") && <AdminControl />}
             <main>
                 <header>
                     <h5>Log in page- CSCI2720 Project</h5>

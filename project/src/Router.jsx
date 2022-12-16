@@ -12,7 +12,6 @@ import UserSearch from './User/UserSearch';
 
 import AdminControl from './Admin/AdminControl';
 import UserCRUD from './Admin/user';
-import LocCRUD from './Admin/location';
 
 class Router extends React.Component {
   render() {
@@ -24,12 +23,12 @@ class Router extends React.Component {
             <Route path="/User" element={<UserControl />} />
             <Route path="/User/Search" element={<UserSearch />} />
             <Route path="/User/Favourite" element={<UserFav />} />
-
             <Route path="/Admin" element={<AdminControl />} />
             <Route path="/Admin/userCRUD" element={<UserCRUD />} />
-            <Route path="/Admin/locCRUD" element={<LocCRUD />} />
           </Routes>
         </BrowserRouter>
+
+        
     );
   }
 

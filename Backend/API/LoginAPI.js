@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 
 LoginAPI = {
     verify:(name, pw) => new Promise (async(res,rej)=>{
+        console.log("work")
         UserInfo.findOne({
             Username: name
         })

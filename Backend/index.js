@@ -19,12 +19,10 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection error:'));
 
 const cors = require('cors'); 
-app.use(cors(
-  cors({
-    origin: 'http://localhost:3000',
-    credentials: true
-})));
-
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
 const LoginAPI = require('./API/LoginAPI.js')
 const CommentAPI = require('./API/CommentAPI.js')
 const FavouriteAPI = require('./API/CommentAPI.js')
@@ -40,6 +38,7 @@ db.once('open',  () =>{
   app.post('/login', async(req, res) => {
     let { username, password } = req.body;
       try{
+        console.log("connect")
         let result = await LoginAPI.verify(username, password)
         console.log(result)
         if(result)
