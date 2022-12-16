@@ -57,6 +57,7 @@ function CombineMap(props) {
                   {console.log('testing')}
                {locations!==null && locations.map(item=>(
                         <MeseumMarker
+                            key={item.locId}
                             icon={require('../image/museum.png')}
                             lat={item.latitude}
                             lng={item.longitude}

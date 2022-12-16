@@ -142,8 +142,8 @@ function UserCURDContent({users}){
                                     <th className="columnName" id="Username">Username</th>
                                     <th className="columnName" id="Password">Password</th>
                                     <th className="columnName" id="role">Role</th>
-                                    <th className="Update" id="update">Update</th>
-                                    <th className="Delete" id="delete">Delete</th>
+                                    <th className="columnName" id="update">Update</th>
+                                    <th className="columnName" id="delete">Delete</th>
                                 </tr>
 
                                 {users.map((key) => {
