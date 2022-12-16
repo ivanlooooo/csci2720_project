@@ -4,39 +4,18 @@ import GoogleMapReact from 'google-map-react';
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 
-function GoogleMap(props) {  
+function BasicMap(props) {  
 
     const [mapApiLoaded, setMapApiLoaded] = useState(false)
     const [mapInstance, setMapInstance] = useState(null)
     const [mapApi, setMapApi] = useState(null)
 
-    let [locations, setLocations] = useState(null)  
-
-    const [myPosition, setMyPosition] = useState({
-        lat: 25.04,
-        lng: 121.50
-      })
-      useEffect(()=>{
-        fetch(process.env.REACT_APP_SERVER_URL+"/locationManage",{
-          method:"POST",
-          credentials: "include",
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ option: "readAll" })
-          }).then(response=>response.json())
-          .then(res => {
-            res.error? alert(res.error):setLocations(res.locList)
-            console.log(res)
-            return(res)
-        })
-        .then(res=>console.log(res))
-          .catch(err => console.log("error: "+err));
-        },[]) 
+    console.log(props)
     const apiHasLoaded = (map, maps) => {
         setMapInstance(map)
         setMapApi(maps)
         setMapApiLoaded(true)
       };
-
     const MeseumMarker = ({ icon, text }) => (
         <div>
           <img style={{ height: '30px', width: '30px' }} src={icon} />
@@ -49,33 +28,27 @@ function GoogleMap(props) {
             <div style={{ height: '100vh', width: '70%' }}>
                 <GoogleMapReact
                     bootstrapURLKeys={{ key: process.env.REACT_APP_MAP_API_KEY }}
-                    defaultCenter={props.center}
-                    defaultZoom={15}
+                    defaultCenter={{lat: 22.302711, lng: 114.177216}}
+                    defaultZoom={12}
+                    center={{lat: props.position.latitude, lng: props.position.longitude}}
                     yesIWantToUseGoogleMapApiInternals
                     onGoogleApiLoaded={({ map, maps }) => apiHasLoaded(map, maps)}
                 >
                   {console.log('testing')}
-               {locations!==null && locations.map(item=>(
+               {props?.position!==null &&
                         <MeseumMarker
-                            icon={require('../image/museum.png')}
-                            lat={item.latitude}
-                            lng={item.longitude}
-                            text={item.text}
-                            placeId={item.locId}
+                        icon={require('../image/museum.png')}
+                        lat={props.position.latitude}
+                        lng={props.position.longitude}
+                        text={props.position.text}
+                        placeId={props.position.locId}
                         />
-                ))}
+                }
                 
                 </GoogleMapReact>
             </div>
         </section>
     )
 }
-GoogleMap.defaultProps = {
-    center: {
-      lat: 22.4185 ,
-      lng: 114.2041
-    },
-    zoom: 17
-  };
 
-export default GoogleMap;
+export default BasicMap;

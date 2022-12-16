@@ -1,18 +1,29 @@
-import { useEffect, useState } from "react";
+import { useNavigate, Navigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 import UserPanel from './UserPanel';
 import '../CSS/User/UserSearch.css';
 
 function UserSearch() {
+    let navigate = useNavigate();
+    let [locations, setLocations] = useState(null)
 
-    // sample data
-    let data = [
-        { venue: "Happy School", location: "Sha Tin, New Territories", noOfEvents: 2, minTrafficSpeed: 20, maxTrafficSpeed: 70 },
-        { venue: "Little Park", location: "Kwun Tong, Kowloon", noOfEvents: 5, minTrafficSpeed: 15, maxTrafficSpeed: 30 },
-        { venue: "Big Library", location: "Causeway Bay, Hong Kong Island", noOfEvents: 3, minTrafficSpeed: 20, maxTrafficSpeed: 40 },
-        { venue: "ABC Mall", location: "Admiralty, Hong Kong Island", noOfEvents: 0, minTrafficSpeed: 30, maxTrafficSpeed: 80 },
-        { venue: "ABC Centre", location: "Sham Shui Po, Kowloon", noOfEvents: 1, minTrafficSpeed: 25, maxTrafficSpeed: 80 },
-    ]
+    useEffect(()=>{
+        fetch(process.env.REACT_APP_SERVER_URL+"/locationManage",{
+          method:"POST",
+          credentials: "include",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ option: "readAll" })
+          }).then(response=>response.json())
+          .then(res => {
+            res.error? alert(res.error):setLocations(res.locList)
+            return(res)
+        })
+        .then(res=>{
+            console.log(locations)}
+            )
+        .catch(err => console.log("error: "+err));
+    },[]) 
 
     const [searchInput, setSearchInput] = useState("");
 
@@ -21,8 +32,8 @@ function UserSearch() {
     };
 
     if (searchInput.length > 0) {
-        data = data.filter((key) => {
-            return (key.venue.match(searchInput) || key.location.match(searchInput));
+        locations = locations.filter((key) => {
+            return (key.name.match(searchInput));
         });
     }
 
@@ -33,26 +44,28 @@ function UserSearch() {
                 <input
                     type="search"
                     className="searchBar"
-                    placeholder="Search Venue here"
+                    placeholder="Search Location here"
                     onChange={handleChange}
                     value={searchInput}>
                 </input>
                 <table className="searchResult">
                     <tr>
-                        <th className="columnName" id="Venue">Venue</th>
-                        <th className="columnName" id="Location">Location</th>
-                        <th className="ColumnName" id="NoOfEvents">No of Events</th>
-                        <th className="ColumnName" id="MinTrafficSpeed">Min Traffic Speed</th>
-                        <th className="ColumnName" id="MaxTrafficSpeed">Max Traffic Speed</th>
+                        <th className="columnName" id="Name">Name</th>
+                        <th className="columnName" id="Lat">Latitude</th>
+                        <th className="ColumnName" id="Lon">Longitude</th>
+                        <th className="ColumnName" id="LocID">Loc ID</th>
+                        <th className="ColumnName" id="eventCount">Number of event</th>
                     </tr>
-                    {data.map((key) => {
+                    {locations!==null &&  locations.map((key) => {
                         return (
                             <tr>
-                                <td className="Cell" id="Venue">{key.venue}</td>
-                                <td className="Cell" id="Location">{key.location}</td>
-                                <td className="Cell" id="NoOfEvents">{key.noOfEvents}</td>
-                                <td className="Cell" id="MinTrafficSpeed">{key.minTrafficSpeed} km/h</td>
-                                <td className="Cell" id="MaxTrafficSpeed">{key.maxTrafficSpeed} km/h</td>
+                                <td className="Cell" id="Name">{key.name}</td>
+                                <td className="Cell" id="Lat">{key.longitude}</td>
+                                <td className="Cell" id="Lon">{key.latitude}</td>
+                                <td className="Cell" id="Loc ID">{key.locId}</td>
+                                <td className="Cell" id="eventCount">Later add back</td>
+                                <td><button type="button">Visit</button></td>
+                                <td><button type="button">Add Fav</button></td>
                             </tr>
                         );
                     })}
