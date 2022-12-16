@@ -42,7 +42,7 @@ Locations = {
             loc.name = e.name;
             loc.longitude = e.longitude; 
             loc.latitude= e.latitude;
-            loc.locId  = e.latitude;
+            loc.locId  = e.locId;
             res(loc);
             return;
             };
