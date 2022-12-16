@@ -185,6 +185,12 @@ db.once('open', () => {
   })
 
   // event api
+  // app.post("/refresh_events", async (req, res) => {
+  //   r = await Events.refresh()
+  //   console.log(r)
+  //   // res.send(await Events.refresh());
+  // })
+
   app.post("/getallevent", async (req, res) => {
     res.send(await Events.read_all());
   })
@@ -194,6 +200,7 @@ db.once('open', () => {
   })
 
   app.post("/getevent", async (req, res) => {
+    eventId = req.body.eventId
     res.send(await Events.read(eventId));
   })
 
@@ -216,7 +223,8 @@ db.once('open', () => {
   })
 
   app.post("/deleteevent", async (req, res) => {
-    res.send(await Events.delete());
+    eventId = req.body.eventId
+    res.send(await Events.delete(eventId));
   })
 
 })

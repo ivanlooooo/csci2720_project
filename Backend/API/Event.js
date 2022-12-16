@@ -1,53 +1,28 @@
 const Event = require('../Schema/Event.js')
 const Location = require('../Schema/Location.js')
+const fetch = require("node-fetch");
+const convert = require('xml-js');
 
 Events = {
-    read_all: () => {
-        let EventData = () => new Promise((res, rej) => {
-            Event.find()
-                .populate('location')
-                .exec((err, e) => {
-                    if (err) rej("error: " + err);
-                    else {
-                        event_list = e.map(ele => {
-                            return {
-                                eventid: ele.eventid,
-                                title: ele.title,
-                                venue: ele.location.map(loc => loc.name),
-                                time: ele.time,
-                                description: ele.description,
-                                presenter: ele.presenter,
-                                price: ele.price
-                            }
-                        })
-                        res(event_list);
-                    }
-                })
-        });
-
-        return EventData()
-    },
     create: () => "test_create",
-    read: eventId => {
-        let EventData = eventId => new Promise((res, rej) => {
-            Event.findOne({ eventid: eventId })
-                .populate('location')
-                .exec((err, e) => {
-                    if (err) rej("error: " + err);
-                    else res({
-                        eventid: e.eventid,
-                        title: e.title,
-                        venue: e.location.map(loc => loc.name),
-                        time: e.time,
-                        description: e.description,
-                        presenter: e.presenter,
-                        price: e.price
-                    });
-                })
-        })
 
-        return EventData(eventId)
-    },
+    read: eventId => new Promise((res, rej) => {
+        Event.findOne({ eventid: eventId })
+            .populate('location')
+            .exec((err, e) => {
+                if (err) rej("error: " + err);
+                else res({
+                    eventid: e.eventid,
+                    title: e.title,
+                    venue: e.location.map(loc => loc.name),
+                    time: e.time,
+                    description: e.description,
+                    presenter: e.presenter,
+                    price: e.price
+                });
+            })
+    }),
+
     update: new_info => {
         let getEvent = eventId => new Promise((res, rej) => {
             Event.findOne({ eventid: eventId })
@@ -112,7 +87,51 @@ Events = {
             .then(res => `successfully updated event id: ${res}`)
 
     },
-    delete: () => "test_delete",
+
+    read_all: () => {
+        let EventData = () => new Promise((res, rej) => {
+            Event.find()
+                .populate('location')
+                .exec((err, e) => {
+                    if (err) rej("error: " + err);
+                    else {
+                        event_list = e.map(ele => {
+                            return {
+                                eventid: ele.eventid,
+                                title: ele.title,
+                                venue: ele.location.map(loc => loc.name),
+                                time: ele.time,
+                                description: ele.description,
+                                presenter: ele.presenter,
+                                price: ele.price
+                            }
+                        })
+                        res(event_list);
+                    }
+                })
+        });
+
+        return EventData()
+    },
+
+    delete_all: () => new Promise((res, rej) => {
+        Event.find()
+            .remove()
+            .exec((err, e) => {
+                if (err) rej("error: " + err);
+                else res("all data deleted");
+            })
+    }),
+
+    delete: eventId => new Promise((res, rej) => {
+        Event.findOne({ eventid: eventId })
+            .remove()
+            .exec((err, e) => {
+                if (err) rej("error: " + err);
+                else if (e.deletedCount === 0) rej("cannot find event id: " + req.params.eventId);
+                else res(`event ${e.eventid} deleted`);
+            })
+    }),
 }
 
 
