@@ -126,49 +126,44 @@ db.once('open', () => {
       res.status(404).send({ error: e })
     }
 
-  })
-  //admin CURD: locations
-  app.post("/locationManage", async (req, res) => {
-    let usrId = req.signedCookies.usrId;
-    let { locationId, option, newLocation } = req.body;
+      })
+        //admin CURD: locations
+      app.post("/locationManage", async(req, res) => {
+        let usrId = req.signedCookies.usrId;
+        let { locationId, option, newName, newLongitude, newLatitude,userId} = req.body;
 
-    // rej error msg not object
-    try {
-      switch (option) {
-        case "reload":
-          await LocationsAPI.reloadData(); // note: no return for reload?
-          res.send(await Locations.getAll());
-          break;
-        case "create":
-          if (await LocationsAPI.create(newLocation))
-            res.send({ result: "success" }); // note: return success or error? check big small letter?
-          break;
-        case "read":
-          res.send(await LocationsAPI.get(locationId));
-          break;
-        case "readAll":
-          console.log(await LocationsAPI.getAll())
-          res.send(await LocationsAPI.getAll());
-          break;
-        case "readFav":
-          res.send(await LocationsAPI.getFavourite(usrId)); // return all data, weature, latitude longtitude
-          break;
-        case "update": // note keep pop up location name cannot be changed, cannot change to existing location
-          if (await LocationsAPI.update(locationId, newLocation))
-            res.send({ result: "success" }); // note: return success or error?
-          break;
-        case "delete":
-          if (await LocationsAPI.delete(locationId))
-            res.send({ result: "success" }); // note: return success or error?
-          break;
-        default:
-          res.status(404).send([]);
-      }
-    } catch (e) {
-      console.log("error: " + e)
-      res.status(404).send({ error: e })
-    }
-  })
+        // rej error msg not object
+        try {
+            switch (option) {
+              case "create":
+                if (await LocationsAPI.create(locationId,newName, newLongitude, newLatitude))
+                  res.send({ result: "success" }); // note: return success or error? check big small letter?
+                break;
+              case "read":
+                res.send(await LocationsAPI.get(locationId));
+                break;
+              case "readAll":
+                res.send(await LocationsAPI.getAll());
+                break;
+              case "readFav":
+                res.send(await LocationsAPI.getFavourite(userId)); // return all data, weature, latitude longtitude
+                break;
+              case "update": // note keep pop up location name cannot be changed, cannot change to existing location
+                if (await LocationsAPI.update(locationId,newName, newLongitude, newLatitude))
+                  res.send({ result: "success" }); // note: return success or error?
+                break;
+              case "delete":
+                if (await LocationsAPI.delete(locationId))
+                  res.send({ result: "success" }); // note: return success or error?
+                break;
+              default:
+                res.status(404).send([]);
+            }
+        } catch (e) {
+            console.log("error: " + e)
+            res.status(404).send({ error: e })
+        }
+    })
 
   // event api
   app.post("/getallevent", async (req, res) => {
