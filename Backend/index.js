@@ -25,7 +25,7 @@ app.use(cors({
 }));
 const LoginAPI = require('./API/LoginAPI.js')
 const CommentAPI = require('./API/CommentAPI.js')
-const FavouriteAPI = require('./API/CommentAPI.js')
+const FavouriteAPI = require('./API/FavoruiteAPI.js')
 const UsersAPI = require('./API/UserAPI.js')
 const LocationsAPI = require('./API/LocationAPI.js')
 
