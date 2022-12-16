@@ -90,7 +90,7 @@ Events = {
                         e.description = new_info.event_description
                         e.presenter = new_info.event_presenter
                         e.price = new_info.event_price
-                        e.save().then(() => res(e.eventId));
+                        e.save().then(() => res(e.eventid));
                     }
                 })
         })
@@ -109,6 +109,7 @@ Events = {
             })
             .then(res => mapLocId(res))
             .then(res => updateEvent(res))
+            .then(res => `successfully updated event id: ${res}`)
 
     },
     delete: () => "test_delete",

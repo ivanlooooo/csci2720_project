@@ -194,7 +194,6 @@ db.once('open', () => {
   })
 
   app.post("/getevent", async (req, res) => {
-    let eventId = req.body.eventId ? req.body.eventId : 145073
     res.send(await Events.read(eventId));
   })
 
