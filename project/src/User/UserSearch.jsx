@@ -58,6 +58,8 @@ function UserSearch() {
                         <th className="ColumnName" id="Lon">Longitude</th>
                         <th className="ColumnName" id="LocID">Loc ID</th>
                         <th className="ColumnName" id="eventCount">Number of event</th>
+                        <th className="ColumnName" id="space1"></th>
+                        <th className="ColumnName" id="space2"></th>
                     </tr>
                     {locations!==null &&  locations.map((key) => {
                         return (
