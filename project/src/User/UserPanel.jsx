@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Link, NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 
+import { Navigate } from "react-router-dom";
 import '../CSS/User/UserPanel.css';
 
 function UserPanel() {
@@ -8,12 +9,13 @@ function UserPanel() {
     //Need set user name after back end build
     return (
         <div className="topnav">
+            {(localStorage.getItem("role")!="user") && <Navigate to="/login" replace={true} /> }
             <NavLink to="/user" activeclassname="active" end>Home</NavLink>
             <NavLink to="/User/Search" activeclassname="active">Search</NavLink>
             <NavLink to="/User/Favourite" activeclassname="active">Favourite</NavLink>
             <div className="topnav-right">
                 <a className="disabled-link">Hello user</a>
-                <NavLink to="/login" activeclassname="active">Logout</NavLink>
+                <NavLink to="/login" onClick={()=>{localStorage.setItem("role", "")}} activeclassname="active">Logout</NavLink>
             </div>
 
         </div>

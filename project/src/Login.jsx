@@ -5,7 +5,10 @@ import './CSS/login.css';
 import AdminControl from './Admin/AdminControl';
 import UserControl from './User/UserControl';
 import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 function Login(){
+    
+    let navigate = useNavigate();
     let [loginStatus, setlogIn] = useState(null);
     let [role,setRole] = useState(null);
 
@@ -25,6 +28,13 @@ function Login(){
             .then(res => {
                 setlogIn(res.login)
                 setRole(res.role)
+                if (res.role == "User"){
+                    navigate('/user')
+                    localStorage.setItem("role", "user")
+                }else if(res.role == "admin"){
+                    navigate('/admin')
+                    localStorage.setItem("role", "admin")
+                }
             })
             .catch(err => console.log("error: " + err));
         e.target.reset();
@@ -32,8 +42,9 @@ function Login(){
 
     return(
         <div className='logInPage'>
-            {(loginStatus && role==="User") && <Navigate  to="/user" replace={true} />}
-            {(loginStatus && role==="admin") && <Navigate  to="/admin" replace={true} /> }
+            
+            {(localStorage.getItem("role")==="admin") && <Navigate to="/admin" replace={true} /> }
+            {(localStorage.getItem("role")==="user") && <Navigate to="/user" replace={true} /> }
             <main>
                 <header>
                     <h5>Log in page- CSCI2720 Project</h5>
