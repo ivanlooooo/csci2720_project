@@ -15,8 +15,10 @@ function LocCURD() {
     let locId = searchParams.get("id");
     let submitForm = e => {
         e.preventDefault();
-        let fetchBody = null;
-        let newLocation = null; //added
+        //let fetchBody = null;
+        let locationName = null; //added
+        let longitude = null; //added
+        let latitude = null; //added
         let option= searchParams.get("option");
 
         if(formValidation(e.target.name.value, e.target.latitude.value, e.target.longitude.value)) return;
@@ -24,11 +26,15 @@ function LocCURD() {
         switch(option){
             case "create":
                 alert('Location created Successfully!');
-                newLocation = e.target.name.value; //added
+                locationName = e.target.name.value; //added
+                longitude = e.target.longitude.value; //added
+                latitude = e.target.latitude.value; //added
                 break;
             case "update":
                 alert('Location updated Successfully!');
-                newLocation = e.target.name.value; //added
+                locationName = e.target.name.value; //added
+                longitude = e.target.longitude.value; //added
+                latitude = e.target.latitude.value; //added
                 break;
             case "delete":
                 alert('Location deleted Successfully!');
@@ -42,7 +48,7 @@ function LocCURD() {
             method:"POST",
             credentials: "include", //same-origin??
             headers: { 'Content-Type': 'application/json' },
-            body: { locId, option, newLocation }
+            body: { locId, option, locationName, longitude, latitude }
         })
         .then(res => res.json())
         .then(res => res.error? alert(res.error):setCrudResult(res.result))
@@ -97,17 +103,19 @@ function LocCURD() {
         .catch(err => console.log("error: "+err));
         */
        
-        role = "admin";
+        role = "admin"; // directly set as admin
 
         if(locId){
             let option = "read"; //added
-            let newLocation  = null; //added
+            let locationName  = null; //added
+            let longitude  = null; //added
+            let latitude  = null; //added
             fetch(process.env.REACT_APP_SERVER_URL+"/locationManage",{
                 method:"POST",
                 credentials: "include",
                 headers: { 'Content-Type': 'application/json' },
                 //body: JSON.stringify({ option: "read", locationId: locId })
-                body: { locId, option, newLocation}
+                body: { locId, option, locationName, longitude,latitude }
             })
             .then(res => res.json())
             .then(res => res.error? alert(res.error):setLocation(res))
