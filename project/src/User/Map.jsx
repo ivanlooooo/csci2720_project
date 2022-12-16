@@ -10,46 +10,32 @@ function GoogleMap(props) {
     const [mapInstance, setMapInstance] = useState(null)
     const [mapApi, setMapApi] = useState(null)
 
+    let [locations, setLocations] = useState(null)  
+
     const [myPosition, setMyPosition] = useState({
         lat: 25.04,
         lng: 121.50
       })
-
-    let location=[
-        {
-            placeId : 3110031,
-            lat: 22.501639,
-            lng: 114.128911,
-            text: 'North District Town Hall (Auditorium)'
-        },
-        {
-            placeId : 36310035,
-            lat: 22.38136,
-            lng: 114.18990,
-            text: 'Sha Tin Town Hall (Auditorium)'
-        },
-        {
-            placeId : 75010017,
-            lat: 22.285056,
-            lng: 114.222075,
-            text: 'Hong Kong Film Archive (Cinema)'
-        },
-    ]
-
+      useEffect(()=>{
+        fetch(process.env.REACT_APP_SERVER_URL+"/locationManage",{
+          method:"POST",
+          credentials: "include",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ option: "readAll" })
+          }).then(response=>response.json())
+          .then(res => {
+            res.error? alert(res.error):setLocations(res.locList)
+            console.log(res)
+            return(res)
+        })
+        .then(res=>console.log(res))
+          .catch(err => console.log("error: "+err));
+        },[]) 
     const apiHasLoaded = (map, maps) => {
         setMapInstance(map)
         setMapApi(maps)
         setMapApiLoaded(true)
       };
-    
-    const handleCenterChange = () => {
-        if(mapApiLoaded) {
-          setMyPosition({
-            lat: mapInstance.center.lat(),
-            lng: mapInstance.center.lng()
-          })
-        }
-    }
 
     const MeseumMarker = ({ icon, text }) => (
         <div>
@@ -63,19 +49,19 @@ function GoogleMap(props) {
             <div style={{ height: '100vh', width: '70%' }}>
                 <GoogleMapReact
                     bootstrapURLKeys={{ key: process.env.REACT_APP_MAP_API_KEY }}
-                    onBoundsChange={handleCenterChange}
                     defaultCenter={props.center}
                     defaultZoom={15}
                     yesIWantToUseGoogleMapApiInternals
                     onGoogleApiLoaded={({ map, maps }) => apiHasLoaded(map, maps)}
                 >
-               {location.map(item=>(
+                  {console.log('testing')}
+               {locations!==null && locations.map(item=>(
                         <MeseumMarker
                             icon={require('../image/museum.png')}
-                            lat={item.lat}
-                            lng={item.lng}
+                            lat={item.latitude}
+                            lng={item.longitude}
                             text={item.text}
-                            placeId={item.placeId}
+                            placeId={item.locId}
                         />
                 ))}
                 

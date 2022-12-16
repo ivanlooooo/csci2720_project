@@ -24,8 +24,6 @@ function Login(){
             .then(res => {
                 setlogIn(res.login)
                 setRole(res.role)
-                console.log(role)
-                console.log(loginStatus)
             })
             .catch(err => console.log("error: " + err));
         e.target.reset();

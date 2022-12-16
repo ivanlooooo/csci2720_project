@@ -42,6 +42,7 @@ Locations = {
         })
     }),
     getAll: ()=> new Promise((res, rej) => {
+        console.log("testing")
         Location.find()
         .exec((err,e)=>{
             const locList = [];
@@ -54,17 +55,18 @@ Locations = {
                 return
             }
             else{
-                console.log(e)
                 for (let ele of e){
                     const loc = {};
                     loc.name = ele.name
                     loc.longitude = ele.longitude 
-                    loc.latitude= ele.atitude
-                    loc.locId  = ele.latitude
+                    loc.latitude= ele.latitude
+                    loc.locId  = ele.locId
                     locList.push(loc)
                 }
             }
-            res(locList);
+            let result={}
+            result.locList = locList
+            res(result);
             return;
         });
     }),
