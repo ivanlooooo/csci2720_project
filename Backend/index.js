@@ -140,7 +140,6 @@ db.once('open',  () =>{
                 res.send(await LocationsAPI.get(locationId));
                 break;
               case "readAll":
-                console.log(await LocationsAPI.getAll())
                 res.send(await LocationsAPI.getAll());
                 break;
               case "readFav":
