@@ -69,12 +69,13 @@ FavouriteAPI={
             else if (e === null)
             rej(`{"error":"cannot find location}`)
             else{
+                console.log(e)
             const results = [];
             e.map(ele => {
-                loc.name = e.Location.name;
-                loc.longitude = e.Location.longitude; 
-                loc.latitude= e.Location.latitude;
-                loc.locId  = e.Location.locId;
+                loc.name = ele.Location.name;
+                loc.longitude = ele.Location.longitude; 
+                loc.latitude= ele.Location.latitude;
+                loc.locId  = ele.Location.locId;
             });
             res(results);
             console.log(results)

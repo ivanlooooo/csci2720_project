@@ -2,6 +2,7 @@ const Event = require('../Schema/Event.js')
 const Location = require('../Schema/Location.js')
 
 const mongoose = require("mongoose");
+
 const bcrypt = require("bcrypt");
 
 
@@ -74,33 +75,39 @@ Events = {
             })
     }),
 
-    readByLoc: locId=>{
-        let findLocation = async(locationId)  => new Promise((res, rej) => {
+    readByLoc: async (locId)=>{
+        let findLocation = (locationId)  => new Promise((res, rej) => {
+            console.log("locId" +locationId)
             Location.findOne({locId: locationId})
                 .exec((err, e) => {
                 if (err)
-                res("Error:" + err);
+                rej("Error:" + err);
                 else if (e === null)
-                res(`{"error":"cannot find location}`)
+                rej(`{"error":"cannot find location}`)
                 else{
                     res(e._id)
+                    console.log(e._id)
                 }
             });
         })
-        let findEvent = (id) =>new Promise((res, rej) => {
-            Event.findOne({ location: mongoose.Types.ObjectId(String(id)) }, { _id:0, eventId: 1, title: 1, time: 1, description: 1, presenter:1,price:1,location: 1 })
-            .populate('location', { _id:0,locId: 1, name: 1,longitude:0, latitude: 0})
+        let findEvent = async(id) =>new Promise((res, rej) => {
+            Event.find({ location: mongoose.Types.ObjectId(String(id)) })
             .exec((err, e) => {
                 if (err) rej("error: " + err);
-                else res({
-                    eventid: e.eventid,
-                    title: e.title,
-                    venue: e.location.map(loc => loc.name),
-                    time: e.time,
-                    description: e.description,
-                    presenter: e.presenter,
-                    price: e.price
-                });
+                else {
+                    event_list = e.map(ele => {
+                        return {
+                            eventid: ele.eventid,
+                            title: ele.title,
+                            venue: ele.location.map(loc => loc.name),
+                            time: ele.time,
+                            description: ele.description,
+                            presenter: ele.presenter,
+                            price: ele.price
+                        }
+                    })
+                    res(event_list);
+                }
             })
         })
         return findLocation(locId)

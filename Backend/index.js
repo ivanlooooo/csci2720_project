@@ -105,15 +105,17 @@ db.once('open', () => {
   //Option: Create / Read user favourite
   app.post("/userFav", async (req, res) => {
     let usrId = req.signedCookies.usrId;
-    let { locationId, option } = req.body;
+    let { username,locationId, option } = req.body;
 
     try {
       switch (option) {
         case "create":
+          console.log("create success")
           if (await FavouriteAPI.create(username, locationId)) res.send({ result: "success" });
           break;
-          case "read":
-            if (await FavouriteAPI.read(username)) res.send({ result: "success" });
+        case "read":
+          console.log("read success")
+          if (await FavouriteAPI.read(username)) res.send({ result: "success" });
         case "delete":
           if (await FavouriteAPI.delete(username, locationId)) res.send({ result: "success" });
           break;
@@ -210,7 +212,6 @@ db.once('open', () => {
 
     //delete records
     result = await Events.delete_all()
-    console.log(result)
 
     //get location list 
     let locations = await LocationsAPI.getAll();
@@ -264,9 +265,8 @@ db.once('open', () => {
   })
 
   app.post("/findeventByLoc", async (req, res) => {
-    let locId = req.body.locId
+    let locId = req.body.locationId
     res.send(await Events.readByLoc(locId));
-    return;
   })
 
   app.post("/updateevent", async (req, res) => {

@@ -34,7 +34,6 @@ function SingleLocation(){
         })
         .catch(err => console.log("error: "+err));
 
-
         fetch(process.env.REACT_APP_SERVER_URL+"/userComments",{
             method:"POST",
             credentials: "include",
@@ -45,6 +44,7 @@ function SingleLocation(){
         .then(res => {res.length>0? setComment(res): console.log(res.error)
         console.log(res)})
         .catch(err => console.log("error: "+err));
+        console.log( searchParams.get("id"))
 
         fetch(process.env.REACT_APP_SERVER_URL+"/findeventByLoc",{
             method:"POST",
@@ -53,8 +53,11 @@ function SingleLocation(){
             body: JSON.stringify({  locationId: searchParams.get("id") })
         })
         .then(res => res.json())
-        .then(res => setEvent(res))
+        .then(res => {res.length>0? setEvent(res): console.log(res.error)
+        console.log(res)})
         .catch(err => console.log("error: "+err));
+
+
     },[]) 
     return(
     <section id='SingleLoc'>
@@ -82,7 +85,7 @@ function SingleLocation(){
                         </tr>
                         {location!=null &&
                                     <tr>
-                                        <td>{location.name}</td>
+                                        <td> {location.name}</td>
                                         <td>{location.latitude}</td>
                                         <td>{location.longitude}</td>
                                         <td>{location.locId}</td>
@@ -91,34 +94,32 @@ function SingleLocation(){
                     </thead>
                 </table>
             </div>
-            {/*
             <div className='col'>
                 <h3>Event Detail</h3>
                 <table className="event-table">
                     <thead>
                         <tr className="first-row">
-                            <th>Title</th>
-                            <th>Time</th>
-                            <th>Description</th>
-                            <th>Presenter</th>
-                            <th>Price</th>
-                        </tr>
-                        <tbody>
-                        {props.location!=null &&
-                                    <tr>
-                                        <th>{props.comment.title}</th>
-                                        <th>{props.comment.time}</th>
-                                        <th>{props.comment.description}</th>
-                                        <th>{props.comment.presenter}</th>
-                                        <th>{props.comment.price}</th>
-                                    </tr>
-                                } 
-                        </tbody>
+                                <th>EventId</th>
+                                <th>Title</th>
+                                <th>Time</th>
+                                <th>Description:</th>
+                                <th>Presenter:</th>
+                                <th>Price</th>
+                            </tr>
+                            {event!=null && event?.map((ele,i) => 
+                                        <tr>
+                                            <td> {ele.eventid}</td>
+                                            <td>{ele.title}</td>
+                                            <td>{ele.time}</td>
+                                            <td>{ele.description}</td>
+                                            <td>{ele.presenter}</td>
+                                            <td>{ele.price}</td>
+                                        </tr>
+                                )} 
                     </thead>
                 </table>
             </div>
         </div>
-        */}
 
         <div className='row'>
             <div className='col'>
@@ -149,7 +150,6 @@ function SingleLocation(){
                             <input type="submit" value="submit"/><br/><br/>
                 </form>
             </div>
-        </div>
         </div>
     </section>
     )

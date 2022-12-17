@@ -28,7 +28,7 @@ function BasicMap(props) {
                 <GoogleMapReact
                     bootstrapURLKeys={{ key: process.env.REACT_APP_MAP_API_KEY }}
                     defaultCenter={{lat: 22.302711, lng: 114.177216}}
-                    defaultZoom={12}
+                    defaultZoom={16}
                     center={{lat: props.position.lat, lng: props.position.lng}}
                     yesIWantToUseGoogleMapApiInternals
                     onGoogleApiLoaded={({ map, maps }) => apiHasLoaded(map, maps)}
