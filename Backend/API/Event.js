@@ -87,9 +87,9 @@ Events = {
                 }
             });
         })
-        let findEvent =async(id) =>new Promise((res, rej) => {
-            Event.findOne({ location:mongoose.Types.ObjectId(String(id)) })
-            .populate('location')
+        let findEvent = (id) =>new Promise((res, rej) => {
+            Event.findOne({ location: mongoose.Types.ObjectId(String(id)) }, { _id:0, eventId: 1, title: 1, time: 1, description: 1, presenter:1,price:1,location: 1 })
+            .populate('location', { _id:0,locId: 1, name: 1,longitude:0, latitude: 0})
             .exec((err, e) => {
                 if (err) rej("error: " + err);
                 else res({

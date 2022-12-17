@@ -42,21 +42,19 @@ function SingleLocation(){
             body: JSON.stringify({ option: "read", locationId: searchParams.get("id") })
         })
         .then(res => res.json())
-        .then(res => {res.length>0? setComment(res): console.log(res.error)})
+        .then(res => {res.length>0? setComment(res): console.log(res.error)
+        console.log(res)})
         .catch(err => console.log("error: "+err));
-        /*
-        fetch(process.env.REACT_APP_SERVER_URL+"/event",{
+
+        fetch(process.env.REACT_APP_SERVER_URL+"/findeventByLoc",{
             method:"POST",
             credentials: "include",
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ option: "get", locationId: searchParams.get("id") })
+            body: JSON.stringify({  locationId: searchParams.get("id") })
         })
         .then(res => res.json())
-        .then(res => setComment(res))
+        .then(res => setEvent(res))
         .catch(err => console.log("error: "+err));
-
-        <Content location={location} comment={comment} event={event} submitComment={submitComment}/>
-        */
     },[]) 
     return(
     <section id='SingleLoc'>
