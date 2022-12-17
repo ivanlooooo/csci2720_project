@@ -17,6 +17,7 @@ function EveCRUD() {
     let EveId = searchParams.get("id");
     let submitForm = e => {
         e.preventDefault();
+        let url=null;
         let option= searchParams.get("option");
         let fetchBody = null;
         if(formValidation(e.target.title.value, e.target.time.value, e.target.latitude.value, e.target.presenter.value)) return;
@@ -25,7 +26,6 @@ function EveCRUD() {
             case "create":
 
                     fetchBody = JSON.stringify({ 
-                    option: option,
                     locationId : e.target.locId.value,
                     newName: e.target.name.value,
                     newLongitude: e.target.longitude.value,
@@ -38,9 +38,8 @@ function EveCRUD() {
                 console.log("1");
                 console.log(option);
             
-
+                url= "/updateevent"
                 fetchBody = JSON.stringify({ 
-                    option: option,
                     locationId : e.target.locId.value,
                     newName: e.target.name.value,
                     newLongitude: e.target.longitude.value,
@@ -55,7 +54,7 @@ function EveCRUD() {
                 console.log(option);
 
 
-                fetchBody = JSON.stringify({ option: option, locationId: locId });
+                fetchBody = JSON.stringify({locationId: locId });
 
 
                 alert('Location deleted Successfully!');
@@ -65,7 +64,7 @@ function EveCRUD() {
         }
         if (fetchBody === null) return;
 
-        fetch(process.env.REACT_APP_SERVER_URL+"/locationManage",{
+        fetch(process.env.REACT_APP_SERVER_URL+url,{
             method:"POST",
             credentials: "include",
             headers: { 'Content-Type': 'application/json' },

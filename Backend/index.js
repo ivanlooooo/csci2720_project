@@ -20,7 +20,7 @@ db.on('error', console.error.bind(console, 'Connection error:'));
 
 const cors = require('cors');
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'http://54.167.103.187:3000',
   credentials: true
 }));
 const LoginAPI = require('./API/LoginAPI.js')
@@ -82,8 +82,7 @@ db.once('open', () => {
 
   //Option: Create / Read user favourite
   app.post("/userFav", async (req, res) => {
-    let usrId = req.signedCookies.usrId;
-    let { locationId, option } = req.body;
+    let { userId,locationId, option } = req.body;
 
     try {
       switch (option) {
@@ -232,7 +231,7 @@ db.once('open', () => {
         console.log(result)
       }
     });
-    res.send()
+    res.send({time})
     return
 
   })

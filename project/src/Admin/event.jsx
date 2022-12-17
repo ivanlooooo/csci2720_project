@@ -10,7 +10,7 @@ function EventCRUD(){
     let [events, setEvents] = useState(null)
     role = "admin";
 
-    let crudEvent = param => navigate("crud?"+param);
+    let crudEve = param => navigate("crud?"+param);
     let reloadData = () => {
 
         fetch(process.env.REACT_APP_SERVER_URL+"/refresh_events",{
@@ -18,11 +18,7 @@ function EventCRUD(){
             credentials: "include",
             headers: { 'Content-Type': 'application/json' },
             //body: JSON.stringify({ option: "readAll" })
-            }).then(response=>response.json())
-            .then(res => {
-              console.log(res)
-              return(res)
-          })
+            }).then()
           .then(res=>console.log(res))
             .catch(err => console.log("error: "+err));
         
@@ -35,7 +31,6 @@ function EventCRUD(){
            }).then(response=>response.json())
            .then(res => {
              res.error? alert(res.error):setEvents(res)
-             console.log(res)
              return(res)
          })
          .then(res=>console.log(res))
@@ -56,13 +51,15 @@ function EventCRUD(){
            .then(res => {
              res.error? alert(res.error):setEvents(res)
              console.log(res)
-             return(res)
+             return(res);
          })
-         .then(res=>console.log(res))
+         .then(res=> {
+            console.log(res);
+    })
            .catch(err => console.log("error: "+err));
     },[]) 
     
-    console.log(events);
+    //console.log(events);
 
 
     return(
@@ -133,6 +130,7 @@ function EventContent(props){
                                         <td>{ele.price}</td>
                                         <td>{ele.venue}</td>
                                         <td>
+                                            <button type="button" className="button" onClick={() => props.crudEve("option=read&id="+ele)}>Read</button>
                                             <button type="button" className="button update-btn" onClick={() => props.crudEve("option=update&id="+ele)}>Update</button>
                                             <button type="button" className="button delete-btn" onClick={() => props.crudEve("option=delete&id="+ele)}>Delete</button>
                                         </td>
