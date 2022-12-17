@@ -13,6 +13,7 @@ function AdminPanel() {
             
             {(localStorage.getItem("role")!="admin") && <Navigate to="/login" replace={true} /> }
             <NavLink to="/admin" activeclassname="active" end>Location</NavLink>
+            <NavLink to="/admin/eventCRUD" activeclassname="active">Event</NavLink>
             <NavLink to="/admin/userCRUD" activeclassname="active">User</NavLink>
             <div className="topnav-right">
                 <a className="disabled-link">Hello {username}</a>
