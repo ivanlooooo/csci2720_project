@@ -8,7 +8,7 @@ Events = {
                 eventid: new_info.eventId,
                 title: new_info.event_title,
                 location: new_info.locationId,
-                time: new_info.event_date,
+                time: new_info.event_time,
                 description: new_info.event_description,
                 presenter: new_info.event_presenter,
                 price: new_info.event_price,

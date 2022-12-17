@@ -154,6 +154,8 @@ db.once('open', () => {
     let usrId = req.signedCookies.usrId;
     let { locationId, option, newName, newLongitude, newLatitude } = req.body;
 
+    option = "readAll"
+
     // rej error msg not object
     try {
       switch (option) {
@@ -188,45 +190,40 @@ db.once('open', () => {
   })
 
   // event api
-  // app.post("/refresh_events", async (req, res) => {
-  //   //get API
-  //   let url_response = await fetch("https://www.lcsd.gov.hk/datagovhk/event/events.xml");
-  //   let data = await url_response.text();
-  //   let result = convert.xml2json(data, { compact: true, spaces: 4 });
-  //   let output = JSON.parse(result);
-  //   let list = output.events.event;
+  app.post("/refresh_events", async (req, res) => {
+    //get API
+    let url_response = await fetch("https://www.lcsd.gov.hk/datagovhk/event/events.xml");
+    let data = await url_response.text();
+    let result = convert.xml2json(data, { compact: true, spaces: 4 });
+    let output = JSON.parse(result);
+    let list = output.events.event;
 
-  //   console.log(list)
+    //delete records
+    result = await Events.delete_all()
+    console.log(result)
 
-  //   // //delete records
-  //   // //db.Event.remove({});
+    //get location list 
+    let locations = await LocationsAPI.getAll();
+    allowedLocationIds = locations.locList.map(ele => ele.locId)
+    list.forEach(async ele => {
+      new_info = {
+        eventId: ele._attributes.id,
+        event_title: ele.titlee._cdata?.replace('"', "'"),
+        locationId: [ele.venueid._cdata],
+        event_time: ele.predateE._cdata,
+        event_description: ele.desce._cdata?.replace('"', "'"),
+        event_presenter: ele.presenterorge._cdata,
+        event_price: ele.pricee._cdata
+      }
 
-  //   // //get location list 
+      if (new_info.locationId.every(locId => allowedLocationIds.includes(parseInt(locId)))) {
+        result = await Events.create(new_info)
+        console.log(result)
+      }
+    });
 
-  //   //formatting & filtering
-  //   let newlist = '[';
-  //   list.forEach(element => {
-  //     var newStr1 = element.titlee._cdata?.replace('"', "'");
-  //     var newStr2 = element.desce._cdata?.replace('"', "'");
-  //     if (element.venueid._cdata == "50110014" || element.venueid._cdata == "3110031" ||
-  //       element.venueid._cdata == "87810042" || element.venueid._cdata == "36310035" ||
-  //       element.venueid._cdata == "50110014" || element.venueid._cdata == "87510008" ||
-  //       element.venueid._cdata == "75010017" || element.venueid._cdata == "76810048" ||
-  //       element.venueid._cdata == "87210045" || element.venueid._cdata == "87310051") {
-  //       newlist = newlist + '{ "eventid": ' + element._attributes.id + ', "title":"' +
-  //         newStr1 + '", "time": "' + element.predateE._cdata + '", "description": "' +
-  //         newStr2 + '", "presenter": "' + element.presenterorge._cdata + '", "price": "' +
-  //         element.pricee._cdata + '", "location": ' + element.venueid._cdata + '},';
-  //     }
-  //   });
-  //   let newlist1 = newlist.slice(0, -1);
-  //   newlist1 = newlist1 + ']';
-
-  //   //update db
-  //   Event.insertMany({ eventid: "145072", title: "Cantonese Operatic Songs Concert", time: "1 Jan 2023 (Sun) 2:00pm", description: "undefined", presenter: "Presented by Jerry Music Art", price: "Free admission by tickets", location: "3110031" }, function (err) {
-  //     console.log(err);
-  //   });
-  // })
+    res.send("refresh done")
+  })
 
   app.post("/getallevent", async (req, res) => {
     res.send(await Events.read_all());
