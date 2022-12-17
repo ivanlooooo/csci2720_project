@@ -10,7 +10,6 @@ function BasicMap(props) {
     const [mapInstance, setMapInstance] = useState(null)
     const [mapApi, setMapApi] = useState(null)
 
-    console.log(props)
     const apiHasLoaded = (map, maps) => {
         setMapInstance(map)
         setMapApi(maps)
@@ -30,15 +29,15 @@ function BasicMap(props) {
                     bootstrapURLKeys={{ key: process.env.REACT_APP_MAP_API_KEY }}
                     defaultCenter={{lat: 22.302711, lng: 114.177216}}
                     defaultZoom={12}
-                    center={{lat: props.position.latitude, lng: props.position.longitude}}
+                    center={{lat: props.position.lat, lng: props.position.lng}}
                     yesIWantToUseGoogleMapApiInternals
                     onGoogleApiLoaded={({ map, maps }) => apiHasLoaded(map, maps)}
                 > 
-                        {props?.position!==null &&
+                        {props!==null &&
                                     <MeseumMarker
                                     icon={require('../image/museum.png')}
-                                    lat={props.position.latitude}
-                                    lng={props.position.longitude}
+                                    lat={props.position.lat}
+                                    lng={props.position.lng}
                                     text={props.position.text}
                                     placeId={props.position.locId}
                                     />

@@ -1,4 +1,5 @@
 import React, { Component, useEffect, useState } from 'react';
+import { useNavigate, Navigate } from "react-router-dom";
 import GoogleMapReact from 'google-map-react';
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
@@ -6,11 +7,14 @@ const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 function CombineMap(props) {  
 
+  let navigate = useNavigate();
     const [mapApiLoaded, setMapApiLoaded] = useState(false)
     const [mapInstance, setMapInstance] = useState(null)
     const [mapApi, setMapApi] = useState(null)
 
     let [locations, setLocations] = useState(null)  
+
+    let detailLoc = param => navigate("../location?"+param); // added function
 
     const [myPosition, setMyPosition] = useState({
         lat: 25.04,
@@ -24,8 +28,7 @@ function CombineMap(props) {
           body: JSON.stringify({ option: "readAll" })
           }).then(response=>response.json())
           .then(res => {
-            res.error? alert(res.error):setLocations(res.locList)
-            console.log(res)
+            setLocations(res.locList)
             return(res)
         })
         .then(res=>console.log(res))
@@ -37,9 +40,9 @@ function CombineMap(props) {
         setMapApiLoaded(true)
       };
 
-    const MeseumMarker = ({ icon, text }) => (
+      const MeseumMarker = ({ icon, text ,placeId}) => (
         <div>
-          <img style={{ height: '30px', width: '30px' }} src={icon} />
+          <img style={{ height: '30px', width: '30px' }} src={icon} onClick={() => detailLoc("id="+placeId)}/>
           <div>{text}</div>
         </div>
     )

@@ -18,17 +18,22 @@ function SingleLocation(){
         })
 
     }
+    let locId = Number(searchParams.get("id"))
 
     useEffect(()=>{
         fetch(process.env.REACT_APP_SERVER_URL+"/locationManage",{
             method:"POST",
             credentials: "include",
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ option: "read", locationId: searchParams.get("id") })
+            body: JSON.stringify({ option: "read", locationId: locId})
         })
-        .then(res => res.json())
-        .then(res => res.error? alert(res.error):setLocation(res))
+        .then(response=>response.json())
+          .then(res => {
+            setLocation(res)
+            return(res)
+        })
         .catch(err => console.log("error: "+err));
+
 
         fetch(process.env.REACT_APP_SERVER_URL+"/userComments",{
             method:"POST",
@@ -37,7 +42,7 @@ function SingleLocation(){
             body: JSON.stringify({ option: "read", locationId: searchParams.get("id") })
         })
         .then(res => res.json())
-        .then(res => setComment(res))
+        .then(res => res.length>0? setComment(res): alert(res.error))
         .catch(err => console.log("error: "+err));
         /*
         fetch(process.env.REACT_APP_SERVER_URL+"/event",{
@@ -49,26 +54,20 @@ function SingleLocation(){
         .then(res => res.json())
         .then(res => setComment(res))
         .catch(err => console.log("error: "+err));
+
+        <Content location={location} comment={comment} event={event} submitComment={submitComment}/>
         */
     },[]) 
-
     return(
-        <>
-        <Content location={location} comment={comment} event={event} submitComment={submitComment}/>
-        </>
-    )
-}
-
-function Content(props){
     <section id='SingleLoc'>
         <div className='row'>
                 <div className='col'>
-                    <h1>Location: {props.location!=null && props.location.name}</h1>
+                    <h1>Location: {location!=null && location.name} </h1>
                 </div>
         </div>
         <div className='row'>
             <div className='col'>
-                {props.location && <BasicMap position={{name: props.location.name, lat: props.location.latitude, lng:props.location.longitude}} />}
+                {location && <BasicMap position={{name: location.name, lat:location.latitude, lng:location.longitude}} />}
             </div>
         </div>
         <div className='row'>
@@ -82,19 +81,18 @@ function Content(props){
                             <th>Latitude</th>
                             <th>Longitude</th>
                         </tr>
-                        <tbody>
-                        {props.location!=null &&
+                        {location!=null &&
                                     <tr>
-                                        <td>{props.location.name}</td>
-                                        <td>{props.location.latitude}</td>
-                                        <td>{props.location.longitude}</td>
-                                        <td>{props.location.locId}</td>
+                                        <td>{location.name}</td>
+                                        <td>{location.latitude}</td>
+                                        <td>{location.longitude}</td>
+                                        <td>{location.locId}</td>
                                     </tr>
                                 } 
-                        </tbody>
                     </thead>
                 </table>
             </div>
+            {/*
             <div className='col'>
                 <h3>Event Detail</h3>
                 <table className="event-table">
@@ -121,6 +119,8 @@ function Content(props){
                 </table>
             </div>
         </div>
+        */}
+
         <div className='row'>
             <div className='col'>
                 <h3>Comments</h3>
@@ -130,14 +130,12 @@ function Content(props){
                                     <th>Name</th>
                                     <th>Comment</th>
                         </tr>
-                        <tbody>
-                                {props.comment!=null && props.comment.map((ele,i) => 
+                                {comment!=null && comment?.map((ele,i) => 
                                     <tr key={i}>
                                         <td>{ele.name}</td>
                                         <td>{ele.comment}</td>
                                     </tr>
                                 )}
-                        </tbody>
                     </thead>
                 </table>
             </div>
@@ -145,12 +143,16 @@ function Content(props){
         <div className='row'>
             <div className='col'>
                 <h3>Leave a comment </h3>
-                <form className="comment-form" onSubmit={props.submitComment}>
+                <form className="comment-form" onSubmit={submitComment}>
+                            <label htmlFor="username">Username:</label>
+                            <input type="text" name="username" required></input><br />
                             <textarea row="5" name="comment" type="text" placeholder="Enter your comment"></textarea>
                             <input type="submit" value="submit"/><br/><br/>
                 </form>
             </div>
         </div>
+        </div>
     </section>
+    )
 }
 export default  SingleLocation;
