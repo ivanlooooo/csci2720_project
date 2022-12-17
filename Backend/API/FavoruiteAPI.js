@@ -61,7 +61,7 @@ FavouriteAPI={
             .then((result => updateFav(result,locationId)))
     },
     read: async(userName) =>new Promise((res, rej) => {
-        Location.findOne({locId: id})
+        Favourite.findOne({locId: id})
         .populate('Location')
         .exec((err, e) => {
             if (err)
