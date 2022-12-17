@@ -133,7 +133,6 @@ function EventContent(props){
                                         <td>{ele.price}</td>
                                         <td>{ele.venue}</td>
                                         <td>
-                                            <button type="button" className="button" onClick={() => props.crudEve("option=read&id="+ele)}>Read</button>
                                             <button type="button" className="button update-btn" onClick={() => props.crudEve("option=update&id="+ele)}>Update</button>
                                             <button type="button" className="button delete-btn" onClick={() => props.crudEve("option=delete&id="+ele)}>Delete</button>
                                         </td>
