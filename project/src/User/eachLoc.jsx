@@ -42,7 +42,7 @@ function SingleLocation(){
             body: JSON.stringify({ option: "read", locationId: searchParams.get("id") })
         })
         .then(res => res.json())
-        .then(res => res.length>0? setComment(res): alert(res.error))
+        .then(res => {res.length>0? setComment(res): console.log(res.error)})
         .catch(err => console.log("error: "+err));
         /*
         fetch(process.env.REACT_APP_SERVER_URL+"/event",{
@@ -67,6 +67,7 @@ function SingleLocation(){
         </div>
         <div className='row'>
             <div className='col'>
+                {console.log(location)}
                 {location && <BasicMap position={{name: location.name, lat:location.latitude, lng:location.longitude}} />}
             </div>
         </div>

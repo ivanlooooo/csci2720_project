@@ -161,8 +161,6 @@ db.once('open', () => {
     let usrId = req.signedCookies.usrId;
     let { locationId, option, newName, newLongitude, newLatitude } = req.body;
 
-    option = "readAll"
-
     // rej error msg not object
     try {
       switch (option) {
@@ -172,6 +170,7 @@ db.once('open', () => {
           break;
         case "read":
           res.send(await LocationsAPI.get(locationId));
+          console.log(res)
           break;
         case "readAll":
           res.send(await LocationsAPI.getAll());
@@ -205,6 +204,8 @@ db.once('open', () => {
     let output = JSON.parse(result);
     let list = output.events.event;
 
+    let modifiedTime = Date.now()  
+
     //delete records
     result = await Events.delete_all()
     console.log(result)
@@ -229,7 +230,8 @@ db.once('open', () => {
       }
     });
 
-    res.send("refresh done")
+    //res.send(modifiedTime)
+
   })
 
   app.post("/getallevent", async (req, res) => {

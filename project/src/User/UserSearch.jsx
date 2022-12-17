@@ -18,7 +18,7 @@ function UserSearch() {
           body: JSON.stringify({ option: "readAll" })
           }).then(response=>response.json())
           .then(res => {
-            res.error? alert(res.error):setLocations(res.locList)
+            res.error? console.log(res.error):setLocations(res.locList)
             console.log(res)
             return(res)
         })
