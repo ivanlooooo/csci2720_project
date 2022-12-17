@@ -56,20 +56,27 @@ db.once('open', () => {
       res.send({ error: e })
     }
   })
+  
+  
 
   //Option: Create / Read usercomments
-  app.post("/userComments", async (req, res) => {
+  app.post("/userComments", async(req, res) => {
     let usrId = req.signedCookies.usrId;
-    let { locationId, option, newComments } = req.body;
+    let { userName,locationId, option, newComments } = req.body;
     try {
-      console.log("connect")
-      let result = await LoginAPI.verify(username, password)
-      console.log(result)
-      if (result)
-        res.send(result);
+        switch (option) {
+            case "create":
+                if (await CommentAPI.create(userName, locationId, newComments)) res.send({ result: "success" });
+                break;
+            case "read":
+                res.send(await CommentAPI.read(locationId));
+                break;
+            default:
+                res.status(404).send([])
+        }
     } catch (e) {
-      console.log("err: " + e)
-      res.send({ error: e })
+        console.log("error: " + e)
+        res.status(404).send({ error: e })
     }
   })
 
@@ -81,10 +88,10 @@ db.once('open', () => {
     try {
       switch (option) {
         case "create":
-          if (await FavouriteAPI.create(usrId, locationId)) res.send({ result: "success" });
+          if (await FavouriteAPI.create(userId, locationId)) res.send({ result: "success" });
           break;
         case "delete":
-          if (await FavouriteAPI.delete(usrId, locationId)) res.send({ result: "success" });
+          if (await FavouriteAPI.delete(userId, locationId)) res.send({ result: "success" });
           break;
         default:
           res.status(404).send([])
