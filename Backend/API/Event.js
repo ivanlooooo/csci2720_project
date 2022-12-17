@@ -1,6 +1,10 @@
 const Event = require('../Schema/Event.js')
 const Location = require('../Schema/Location.js')
 
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
+
+
 Events = {
     create: new_info => {
         let createEvent = new_info => new Promise((res, rej) => {
@@ -69,6 +73,39 @@ Events = {
                 });
             })
     }),
+
+    readByLoc: locId=>{
+        let findLocation = async(locationId)  => new Promise((res, rej) => {
+            Location.findOne({locId: locationId})
+                .exec((err, e) => {
+                if (err)
+                res("Error:" + err);
+                else if (e === null)
+                res(`{"error":"cannot find location}`)
+                else{
+                    res(e._id)
+                }
+            });
+        })
+        let findEvent =async(id) =>new Promise((res, rej) => {
+            Event.findOne({ location:mongoose.Types.ObjectId(String(id)) })
+            .populate('location')
+            .exec((err, e) => {
+                if (err) rej("error: " + err);
+                else res({
+                    eventid: e.eventid,
+                    title: e.title,
+                    venue: e.location.map(loc => loc.name),
+                    time: e.time,
+                    description: e.description,
+                    presenter: e.presenter,
+                    price: e.price
+                });
+            })
+        })
+        return findLocation(locId)
+        .then(res=>findEvent(res))
+    },
 
     update: new_info => {
         let getEvent = eventId => new Promise((res, rej) => {

@@ -49,7 +49,6 @@ Locations = {
         })
     }),
     getAll: ()=> new Promise((res, rej) => {
-        console.log("testing")
         Location.find()
         .exec((err,e)=>{
             const locList = [];

@@ -112,6 +112,8 @@ db.once('open', () => {
         case "create":
           if (await FavouriteAPI.create(username, locationId)) res.send({ result: "success" });
           break;
+          case "read":
+            if (await FavouriteAPI.read(username)) res.send({ result: "success" });
         case "delete":
           if (await FavouriteAPI.delete(username, locationId)) res.send({ result: "success" });
           break;
@@ -204,7 +206,7 @@ db.once('open', () => {
     let output = JSON.parse(result);
     let list = output.events.event;
 
-    let modifiedTime = Date.now()  
+    let time= Date.now()
 
     //delete records
     result = await Events.delete_all()
@@ -229,8 +231,8 @@ db.once('open', () => {
         console.log(result)
       }
     });
-
-    //res.send(modifiedTime)
+    res.send()
+    return
 
   })
 
@@ -257,8 +259,14 @@ db.once('open', () => {
   })
 
   app.post("/getevent", async (req, res) => {
-    eventId = req.body.eventId
+    let eventId = req.body.eventId
     res.send(await Events.read(eventId));
+  })
+
+  app.post("/findeventByLoc", async (req, res) => {
+    let locId = req.body.locId
+    res.send(await Events.readByLoc(locId));
+    return;
   })
 
   app.post("/updateevent", async (req, res) => {

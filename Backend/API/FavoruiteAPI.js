@@ -60,6 +60,27 @@ FavouriteAPI={
             .then(()=>findFavourite(userId))
             .then((result => updateFav(result,locationId)))
     },
+    read: async(userName) =>new Promise((res, rej) => {
+        Location.findOne({locId: id})
+        .populate('Location')
+        .exec((err, e) => {
+            if (err)
+            res("Error:" + err);
+            else if (e === null)
+            res(`{"error":"cannot find location}`)
+            else{
+            const results = [];
+            e.map(ele => {
+                loc.name = e.Location.name;
+                loc.longitude = e.Location.longitude; 
+                loc.latitude= e.Location.latitude;
+                loc.locId  = e.Location.locId;
+            });
+            res(results);
+            return;
+            };
+        })
+    }),
     deletFav : (userId, locationId) =>{
         let checkLocation =(locationId) => new Promise((res, rej) => {
             Location.get(locationId)
