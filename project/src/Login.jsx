@@ -11,10 +11,11 @@ function Login(){
     let navigate = useNavigate();
     let [loginStatus, setlogIn] = useState(null);
     let [role,setRole] = useState(null);
+    //let [username,setUsername] = useState(null);
 
     let logInPage= e =>{
         e.preventDefault();
-        
+        let username = e.target.username.value;
         fetch(process.env.REACT_APP_SERVER_URL + "/login", {
             method: "POST",
             credentials: "include",
@@ -31,9 +32,11 @@ function Login(){
                 if (res.role == "User"){
                     navigate('/user')
                     localStorage.setItem("role", "user")
+                    localStorage.setItem("username", username)
                 }else if(res.role == "admin"){
                     navigate('/admin')
                     localStorage.setItem("role", "admin")
+                    localStorage.setItem("username", username)
                 }
             })
             .catch(err => console.log("error: " + err));

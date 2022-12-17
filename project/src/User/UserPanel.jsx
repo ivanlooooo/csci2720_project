@@ -6,6 +6,8 @@ import '../CSS/User/UserPanel.css';
 
 function UserPanel() {
     const [userName, setUserName] = useState('');
+    let username = localStorage.getItem("username");
+
     //Need set user name after back end build
     return (
         <div className="topnav">
@@ -14,8 +16,8 @@ function UserPanel() {
             <NavLink to="/User/Search" activeclassname="active">Search</NavLink>
             <NavLink to="/User/Favourite" activeclassname="active">Favourite</NavLink>
             <div className="topnav-right">
-                <a className="disabled-link">Hello user</a>
-                <NavLink to="/login" onClick={()=>{localStorage.setItem("role", "")}} activeclassname="active">Logout</NavLink>
+                <a className="disabled-link">Hello {username}</a>
+                <NavLink to="/login" onClick={()=>{localStorage.setItem("role", ""); localStorage.setItem("username", "")}} activeclassname="active">Logout</NavLink>
             </div>
 
         </div>

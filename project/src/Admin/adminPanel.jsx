@@ -6,6 +6,8 @@ import { Navigate } from "react-router-dom";
 import '../CSS/User/UserPanel.css';
 
 function AdminPanel() {
+    let username = localStorage.getItem("username");
+
     return (
         <div className="topnav">
             
@@ -13,8 +15,8 @@ function AdminPanel() {
             <NavLink to="/admin" activeclassname="active" end>Location</NavLink>
             <NavLink to="/admin/userCRUD" activeclassname="active">User</NavLink>
             <div className="topnav-right">
-                <a className="disabled-link">Hello Admin</a>
-                <NavLink onClick={()=>{localStorage.setItem("role", "")}} to="/login" activeclassname="active">Logout</NavLink>
+                <a className="disabled-link">Hello {username}</a>
+                <NavLink onClick={()=>{localStorage.setItem("role", ""); localStorage.setItem("username", "")}} to="/login" activeclassname="active">Logout</NavLink>
             </div>
 
         </div>
