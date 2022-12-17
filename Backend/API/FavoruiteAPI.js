@@ -22,7 +22,7 @@ FavouriteAPI={
 
         let findFavourite = (userId)  => new Promise((res, rej) => {
             UserInfo
-            .findOne({userusrId})
+            .findOne({Username: userId})
             .populate('favourite')
             .exec((err, e) => {
                 if (err) {
@@ -60,14 +60,14 @@ FavouriteAPI={
             .then(()=>findFavourite(userId))
             .then((result => updateFav(result,locationId)))
     },
-    read: async(userName) =>new Promise((res, rej) => {
-        Favourite.findOne({locId: id})
+    read: async(newuserName) =>new Promise((res, rej) => {
+        Favourite.findOne({userName: newuserName})
         .populate('Location')
         .exec((err, e) => {
             if (err)
-            res("Error:" + err);
+            rej("Error:" + err);
             else if (e === null)
-            res(`{"error":"cannot find location}`)
+            rej(`{"error":"cannot find location}`)
             else{
             const results = [];
             e.map(ele => {
@@ -77,6 +77,7 @@ FavouriteAPI={
                 loc.locId  = e.Location.locId;
             });
             res(results);
+            console.log(results)
             return;
             };
         })
